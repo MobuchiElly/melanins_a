@@ -1,9 +1,10 @@
+import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
 
 const Post = () => {
-    const { postId } = useParams();
+    const router = useRouter();
+    const { postId } = router.query;
     const [post, setPost] = useState([])
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(0);
