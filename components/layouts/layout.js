@@ -1,5 +1,5 @@
-import Navbar from "./Navbar";
-import Footer from './Footer';
+import Navbar from './navbar.js';
+import Footer from './footer.js';
 
 const Layout = ({children}) => {
   return (
