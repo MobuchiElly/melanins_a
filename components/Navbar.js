@@ -3,7 +3,7 @@ import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { useSelector, useDispatch} from 'react-redux';
 import { clearUser } from '@/redux/user/userSlice';
 import Cookies from 'js-cookie';
-import useAuthHook from '../hooks/authHook';
+import useAuthHook from './hooks/authHook';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
