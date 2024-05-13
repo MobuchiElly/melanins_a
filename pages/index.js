@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react';
 import Link from 'next/link';
 import axiosInstance from '@/utils/axios';
 import ClipLoader from "react-spinners/ClipLoader";
+import axios from 'axios';
 
 const Home = ({posts, err}) => {
   const [error, setError] = useState('');
@@ -52,7 +53,8 @@ export default Home;
 
 export const getServerSideProps = async() => {
   try {
-    const res = await axiosInstance.get("/blog?featured=true");
+    // const res = await axiosInstance.get("/blog?featured=true");
+    const res = await axios.get("http://localhost:5000/api/v1/blog?featured=true");
     const data = await res.data.data || [];
 
     return {
