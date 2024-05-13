@@ -15,14 +15,10 @@ const ApproveComment = () => {
     const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-        if(!admin){
-            const navigate = useNavigate();
-            navigate('/auth');
-        }
         fetchPendingComments();
         fetchApprovedComments();
     }, [])
-
+    
     const fetchPendingComments = async () => {
         try {
             const res = await axiosInstance.get('/comments?approved=false');
