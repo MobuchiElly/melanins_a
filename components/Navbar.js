@@ -70,12 +70,12 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Nav Menu */}
-      <ul className={nav ? 'fixed md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-900 pt-7 bg-[#000300] ease-in-out duration-500' : 'ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]'} style={{ zIndex: 100 }}>
+      <ul className={nav ? 'fixed md:hidden left-0 z-50 top-0 w-[60%] h-full border-r border-r-gray-900 pt-7 bg-gradient-to-bl from-[#000300] to-gray-900 ease-in-out duration-500' : 'ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]'} style={{ zIndex: 100 }}>
         <div className='block md:hidden ml-4'>
           <AiOutlineClose size={16} onClick={toggleNav} />
         </div>
         {/* Mobile logo */}
-        <h1 className='w-full text-3xl font-bold text-[#00df] m-4'>M<span className='text-slate-300'>E</span>LAN<span className='text-slate-300'>I</span>N A.</h1>
+        <h1 className='w-full text-3xl font-bold text-[#00ef] m-4'>M<span className='text-slate-200'>E</span>LAN<span className='text-slate-200'>I</span>N A.</h1>
         {/* Mobile Items */}
 
         {admin ? (Items.map(item => (

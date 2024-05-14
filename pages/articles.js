@@ -66,7 +66,7 @@ const Articles = () => {
  
 
   return (
-    <div className="w-screen lg:max-w-[90%] md:mx-auto  py-8">
+    <div className="w-screen lg:max-w-[90%] md:mx-auto  py-8 min-h-[80vh]">
       { loading ? <div className='pt-6 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div> : <div>
         <div className='h-12 relative'>
           {

@@ -2,34 +2,24 @@ import React, {useState, useEffect } from 'react';
 import Link from 'next/link';
 import axiosInstance from '@/utils/axios';
 import ClipLoader from "react-spinners/ClipLoader";
-import axios from 'axios';
 
-const Home = ({posts, err}) => {
+const Home = ({featuredPosts, err}) => {
+  const [featuredPost, setFeaturedPost] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);  
  
-  // const fetchFeaturedPosts = async () => {
-  //   try{
-  //     posts ? setLoading(false) : null;
-  //   } catch(err){
-  //     setError(err);
-  //     console.error('Unable to fetch blog posts', err);
-  //   }
-  // }
-
   useEffect(() => {
-    posts ? setLoading(false) : null;
-    err ? (setLoading(false),setError(err)) : null
+    featuredPosts ? (setFeaturedPost(featuredPosts),setLoading(false)) : null;   
   }, []);
  
   
   return (
-    <div className="w-screen lg:max-w-[90%] md:mx-auto px-6 py-8 min-h-96">
-      {(!posts && !loading && error) ? <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1> : <h1 className="text-3xl font-bold mb-2 ml-3">Technology, Entertainment, Sports, Gossip</h1>}
+    <div className="w-screen lg:max-w-[90%] md:mx-auto px-6 py-8 min-h-[80vh]">
+      {(!featuredPosts && !loading && error) ? <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1> : <h1 className="text-3xl font-bold mb-2 ml-3">Technology, Entertainment, Sports, Gossip</h1>}
       {
         loading ? <div className='flex pt-12 pr-9 justify-center w-screen h-96'><ClipLoader color={"#52bfd9"} size={200}/></div> : (
-          <div className={posts ?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : '' }>
-        {posts && Array.isArray(posts) ? posts.map((post) => (
+          <div className={featuredPosts ?"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : '' }>
+        {featuredPosts && Array.isArray(featuredPosts) ? featuredPosts.map((post) => (
           <div key={post._id} className="bg-white p-4 rounded shadow">
             <h2 className="text-xl font-bold mb-2">{post.title}</h2>
             <p className="text-gray-600">{`${post.content}`.slice(0,200)}....</p>
@@ -53,13 +43,12 @@ export default Home;
 
 export const getServerSideProps = async() => {
   try {
-    // const res = await axiosInstance.get("/blog?featured=true");
-    const res = await axios.get("http://localhost:5000/api/v1/blog?featured=true");
+    const res = await axiosInstance.get("/blog?featured=true");
     const data = await res.data.data || [];
 
     return {
     props: {
-      posts: data
+      featuredPosts: data
     }
     }
   } catch (err) {

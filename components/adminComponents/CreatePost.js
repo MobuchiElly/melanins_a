@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import Modal from '../modals/SuccessModal';
 import axiosInstance from '@/utils/axios';
+import axios from 'axios';
 
 const CreatePost = () => {
     const [title, setTitle] = useState('');
+    const [image, setImage] = useState(null);
     const [content, setContent] = useState('');
     const [author, setAuthor] = useState('');
     const [tags, setTags] = useState('');
@@ -11,14 +13,18 @@ const CreatePost = () => {
     const [error, setError] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     
-    const handleSubmit = async (e) => {
+    const handleCreate = async (e) => {
         e.preventDefault();
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "melanin-a");
         try {
             if (tags.split(',').length < 2) {
                 setError('Please add at least two tags');
                 return;
             };
             const trimmedTags = tags.split(",").map(tag=>tag.trim()).filter(tag=>tag !== "");
+            const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
             const res = await axiosInstance.post('/blog', {
                 title,
                 content,
@@ -43,9 +49,22 @@ const CreatePost = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-yellow-50 shadow-md rounded px-8 pt-6 pb-8 my-4">
+            <form onSubmit={handleCreate} className="max-w-md mx-auto bg-yellow-50 shadow-md rounded px-8 pt-6 pb-8 my-4">
                 <h1 className='text-lg font-[700] mb-6 text-center'>Let out your Creativity</h1>
                 <p className='text-center text-red-600 font-[600]'>{error}</p>
+                <div className="mb-4">
+                    <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
+                        Image
+                    </label>
+                    <input
+                        type="text"
+                        id="image"
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                        className="w-full px-3 py-2 border rounded-md bg-yellow-50"
+                        required
+                    />
+                </div>
                 <div className="mb-4">
                     <label htmlFor="title" className="block text-gray-700 font-bold mb-2">
                         Title
