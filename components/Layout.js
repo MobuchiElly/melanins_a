@@ -5,7 +5,7 @@ const Layout = ({children}) => {
   return (
     <>
       <Navbar/>
-      <main className="mt-24">{children}</main>
+      <main className="bg-gradient-to-b from-slate-100 to-slate-200">{children}</main>
       <Footer />
     </>
   );

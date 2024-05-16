@@ -1,5 +1,5 @@
 
-const Modal = ({modalOpen, setModalOpen, title, content}) => {
+const Modal = ({setModalOpen, title, content}) => {
    
     return (
       <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-screen z-50'>

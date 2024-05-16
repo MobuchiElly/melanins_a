@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 
-body{
-  background-color: rgb(255, 255, 245);
-}
 @layer utilities {
   .text-balance {
     text-wrap: balance;

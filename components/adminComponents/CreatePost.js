@@ -12,35 +12,46 @@ const CreatePost = () => {
     const [featured, setFeatured] = useState(false);
     const [error, setError] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
-    
+    console.log("file:", image);
+
     const handleCreate = async (e) => {
         e.preventDefault();
         const data = new FormData();
         data.append("file", image);
-        data.append("upload_preset", "melanin-a");
+        data.append("upload_preset", "melaninDb");
         try {
             if (tags.split(',').length < 2) {
                 setError('Please add at least two tags');
                 return;
             };
             const trimmedTags = tags.split(",").map(tag=>tag.trim()).filter(tag=>tag !== "");
+
             const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
-            const res = await axiosInstance.post('/blog', {
-                title,
-                content,
-                author,
-                tags: trimmedTags,
-                featured,
-            });
-            if (data && data.post.title && data.post.content) {
-                setTitle('');
-                setContent('');
-                setAuthor('');
-                setTags('');
-                setError('');
-                setFeatured(false);
-                setModalOpen(true);
+            const { url } = await uploadRes.data;
+            console.log("url: ",url);
+            
+            if (url) {
+                const res = await axiosInstance.post('/blog', {
+                    title,
+                    content,
+                    author,
+                    tags: trimmedTags,
+                    featured,
+                    image: url,
+                });
+                if (res.data && res.data.post.title && res.data.post.image) {
+                    setTitle('');
+                    setContent('');
+                    setAuthor('');
+                    setTags('');
+                    setError('');
+                    FileSystemFileEntry(null);
+                    setFeatured(false);
+                    setModalOpen(false);
+                }
+                console.log("successully made post")
             }
+            
         } catch (err) {
             setError(err);
             console.error(err);
@@ -51,17 +62,16 @@ const CreatePost = () => {
         <div>
             <form onSubmit={handleCreate} className="max-w-md mx-auto bg-yellow-50 shadow-md rounded px-8 pt-6 pb-8 my-4">
                 <h1 className='text-lg font-[700] mb-6 text-center'>Let out your Creativity</h1>
-                <p className='text-center text-red-600 font-[600]'>{error}</p>
+                {/* <p className='text-center text-red-600 font-[600]'>{error.message}</p> */}
                 <div className="mb-4">
                     <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
-                        Image
+                        Choose an Image
                     </label>
                     <input
-                        type="text"
+                        type="file"
                         id="image"
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md bg-yellow-50"
+                        onChange={(e) => setImage(e.target.files[0])}
+                        className="w-full pl-1 pr-4 py-2 border rounded-md bg-yellow-50"
                         required
                     />
                 </div>

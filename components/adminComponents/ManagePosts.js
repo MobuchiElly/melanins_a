@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import axiosInstance from '@/utils/axios';
+import axios from 'axios';
+import Image from 'next/image';
 
 const ManagePosts = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -14,6 +16,7 @@ const ManagePosts = () => {
     const [allTags, setAllTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState(new Set());
     const [strTags, setStrTags] = useState('');
+    const [image, setImage] = useState(null);
 
     const handleSearch = () => {
         fetchPosts();
@@ -29,17 +32,25 @@ const ManagePosts = () => {
     
     const handleSave = async() => {
         try{
+            const data = new FormData();
+            data.append("file", image);
+            data.append("upload_preset", "melaninDb");
+
             const { title, content} = selectedPost;
-            console.log(selectedPost.tags)
+            
             const selectedPostTags = selectedPost.tags.map(tag=>tag.trim()).filter(tag=>tag !== ""); console.log(selectedPostTags)
-            if(title || content){
-                const updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags});
+            if(title || content || image || selectedPostTags){
+                const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
+                const {url} = await uploadRes.data;
+                if(url){
+                    const updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags, image:url});
                 if(updatedPost){
                     setPosts(prevPosts => prevPosts.map(post => post._id===selectedPost._id ? selectedPost : post));
                     //  setAllTags(prevTags => [...prevTags, selectedPostTags])
                 }
                 setIsEditing(false);
                 setSelectedPost(null);
+                }
             }else{
                 setError('Title and Content are required');
                 console.error('Title and Content are required');
@@ -83,7 +94,6 @@ const ManagePosts = () => {
     }; 
     
     const fetchPosts = async () => { 
-        // enable fetching according to tags as well and only if selectedTags is not empty. Also according to search
         if(selectedTags){
             setStrTags([...selectedTags].join(", "));
         }
@@ -110,8 +120,7 @@ const ManagePosts = () => {
                 })
             }});
     }, [posts]);
-    // console.log('All tags', allTags)
-    // console.log('Selected tags', selectedTags)
+    
     return (
         <div className="p-4 max-w-[80%] mx-auto overflow-x-auto">
             { loading ? <div className='pt-6 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div> : <div>
@@ -130,8 +139,7 @@ const ManagePosts = () => {
                     Search
                 </button>
             </div>
-            <div className="flex items-center flex-wrap mt-3 ml-1">
-                {/* Loop through posts to get post.tags and render the tags dynamically */}
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1 mt-3 pl-1 mb-2">
                 {allTags && allTags.map((tag, index) => (
                     <label className="mr-2 flex items-center" key={index}>
                     <input
@@ -207,6 +215,12 @@ const ManagePosts = () => {
             <div className="fixed inset-0 w-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div className='bg-white p-4 rounded shadow-md'>
                     <h4 className='text-lg mb-4 font-bold'>Edit Post</h4>
+                    <div className='flex flex-col  lg:flex-row  items-start lg:items-end mb-1 min-h-[20vh] border border-gray-300 rounded px-2 pt-1'>
+                        <Image src={selectedPost.image} width={100} height={200} alt="" className="mr-2 rounded-md w-[48vw] lg:w-[28vw]  bg-gray-800 bg-opacity-10 h-[20vh] mb-2 lg:mb-0"/>
+                        <div className='mb-1'>
+                            <input type="file" onChange={(e) => setImage(e.target.files[0])}/>
+                        </div>
+                    </div>
                     <input
                         type="text"
                         value={selectedPost.title}

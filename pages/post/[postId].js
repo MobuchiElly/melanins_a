@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import axiosInstance from '../../utils/axios';
 
-const Post = () => {
+const Post = ({data}) => {
     const router = useRouter();
     const { postId } = router.query;
     console.log(router.query)
@@ -14,7 +14,7 @@ const Post = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    console.log('data:', data);
     const fetchSinglePost = async() =>{
         if(postId) {
             try{
@@ -57,8 +57,9 @@ const Post = () => {
     }, [postId])
     
     return (
-        <div className="container mx-auto px-4 py-8">
-            {loading ? <div className='pt-6 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div> : <div>
+        <div className="container mx-auto px-4 py-8 min-h-[80vh]">
+            {loading ? 
+            <div className='pt-6 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div> : <div>
                 <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
                 <p className="text-gray-600 mb-4 text-lg">Published by {post.author} on {new Date(post.createdAt).toDateString()}</p>
                 <div className="bg-white py-4 rounded shadow">
@@ -89,3 +90,26 @@ const Post = () => {
 };
 
 export default Post;
+
+
+export const getServerSideProps = async({req}) => {
+    try{
+        const postId = req?.query?.postId;
+        // console.log('hello')
+        // console.log(postId, 'id')
+        const res = await axiosInstance.get("/blog/" + postId);
+        console.log("postId inGssprops", postId);
+        return {
+        props: {
+            data: data
+        }
+        }
+    } catch(err){
+        console.log(err);
+        return {
+            props: {
+
+            }
+        }
+    }
+}
