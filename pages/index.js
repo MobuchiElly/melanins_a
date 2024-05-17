@@ -1,7 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import Link from 'next/link';
 import axiosInstance from '@/utils/axios';
-import ClipLoader from "react-spinners/ClipLoader";
 import Image from 'next/image';
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

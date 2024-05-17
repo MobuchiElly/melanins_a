@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
-import { FiSearch } from 'react-icons/fi';
-import { FaTimes } from 'react-icons/fa';
 import axiosInstance from "@/utils/axios";
 import Image from "next/image";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
