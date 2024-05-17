@@ -26,7 +26,7 @@ const Home = ({featuredPosts, err}) => {
   return (
     <div className="w-full lg:max-w-[90%] md:mx-auto px-6 pb-10 min-h-[80vh]">
       <Head>
-        <title>Melanin A Blog</title>
+        <title>Welcome to Melanin Amaras Blog</title>
         <meta name="description" content="Current News, Exclusive Info and Gossip" />
         <meta name="keywords" content="blog, gossip, news" />
       </Head>
