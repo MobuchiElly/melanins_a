@@ -138,7 +138,7 @@ const Articles = () => {
               <div className="w-full my-9 rounded-2xl min-h-[140vh] shadow border bg-white px-4">
                 <div>
                   <h1 className="text-2xl font-bold py-7 text-center">Aside Contents would appear here</h1>
-                  <p className='text-lg font-semibold text-center'>Jumbo jumbo jumbo....let's fill it up people.....lolllll</p>
+                  <p className='text-lg font-semibold text-center'>Jumbo jumbo jumbo....Fill it up people.....lolllll</p>
                 </div>
               </div>
             </section>
