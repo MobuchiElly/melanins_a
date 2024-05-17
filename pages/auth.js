@@ -25,7 +25,7 @@ const Auth = () => {
     console.log("trying to login now");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/login",
+        process.env.NEXT_PUBLIC_ENDPOINT_URL + "/auth/login",
         { email, password }
       );
       const data = await response.data;
@@ -65,7 +65,7 @@ const Auth = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        process.env.NEXT_PUBLIC_ENDPOINT_URL + "/auth/register",
         { name, email, password }
       );
       const data = response.data;

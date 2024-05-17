@@ -80,7 +80,7 @@ const Home = ({featuredPosts, err}) => {
               
               <div className="w-full bg-white border shadow py-9 px-7 mb-6 rounded-2xl">
                   <div className="flex items-center p-1 mb-3">
-                    <h1 className="font-[600] text-xl mb-1 bg-red-100">Recent Posts</h1>
+                    <h1 className="font-[600] text-xl mb-1">Recent Posts</h1>
                     <div className="">
                       <div className="ml-2 bg-pink-500 h-3 w-3 rounded-full inline-flex"></div>
                     </div>
