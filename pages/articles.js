@@ -70,7 +70,7 @@ const Articles = () => {
         { loading ? 
         <SkeletonTheme baseColor="#ffffff" highlightColor="#d3d3d3">
           <p ><Skeleton height={50} className=""/></p>
-          <p ><Skeleton height={500} className="my-4"/></p>
+          <p ><Skeleton height={500} className="mt-4"/></p>
         </SkeletonTheme> 
         :  
         (posts && posts.length) ? <div>
@@ -179,7 +179,10 @@ const Articles = () => {
               <p className='text-xl font-semibold text-center'>Bring back the zombies....let us fill up this place.....lolllll</p>
           </div>
           </section>  
-        </div> : <div className='pt-10 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div>
+        </div> : <SkeletonTheme baseColor="#ffffff" highlightColor="#d3d3d3">
+          <p ><Skeleton height={50} className=""/></p>
+          <p ><Skeleton height={500} className="mt-4"/></p>
+        </SkeletonTheme>
         }
       </div>
     </div>

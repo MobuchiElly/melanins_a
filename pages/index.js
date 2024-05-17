@@ -3,6 +3,8 @@ import Link from 'next/link';
 import axiosInstance from '@/utils/axios';
 import ClipLoader from "react-spinners/ClipLoader";
 import Image from 'next/image';
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Home = ({featuredPosts, err}) => {
   const [featuredPost, setFeaturedPost] = useState([]);
@@ -28,7 +30,10 @@ const Home = ({featuredPosts, err}) => {
       {/* Loading check */}
       {
         loading ? 
-        <div className='flex pt-12 pr-9 justify-center w-screen h-96'><ClipLoader color={"#52bfd9"} size={200}/></div> 
+        <SkeletonTheme baseColor="#ffffff" highlightColor="#d3d3d3">
+          <p ><Skeleton height={50} className=""/></p>
+          <p ><Skeleton height={500} className="mt-4"/></p>
+        </SkeletonTheme> 
         : 
         (featuredPosts && featuredPosts.length > 0) ? <div>
           <div className='bg-white rounded-xl shadow-sm'>
@@ -132,7 +137,10 @@ const Home = ({featuredPosts, err}) => {
               <p className='text-xl font-semibold text-center'>Bring ideas....let your imagination run wild.....lolllll</p>
             </div>
           </section>
-        </div> : <div className='flex pt-12 pr-9 justify-center w-full h-96'><ClipLoader color={"#52bfd9"} size={200}/></div>
+        </div> : <SkeletonTheme baseColor="#ffffff" highlightColor="#d3d3d3">
+          <p ><Skeleton height={50} className=""/></p>
+          <p ><Skeleton height={500} className="mt-4"/></p>
+        </SkeletonTheme>
       }
       
       
