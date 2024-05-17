@@ -82,7 +82,7 @@ const Auth = () => {
 
   return (
     <div className="flex justify-center items-center min-h-[80vh] border pb-20 text-white px-10 lg:px-1">
-      <div className="bg-gradient-to-tr from-gray-800 to-cyan-600  p-8 rounded-tl-2xl rounded-br-3xl shadow-md w-96 mb-32 lg:mb-12">
+      <div className="bg-gradient-to-tr from-gray-900 to-cyan-500  p-8 rounded-tl-2xl rounded-br-3xl shadow-md w-96 mb-2 md:mb-3 lg:mb-6">
         <h2 className="text-2xl mb-4 font-semibold">{toggle ? "Register" : "Login"}</h2>
         <form onSubmit={toggle ? handleRegister : handleLogin}>
           {toggle && (

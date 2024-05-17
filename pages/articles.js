@@ -132,8 +132,11 @@ const Articles = () => {
                 }
               </div>
             </div>
-            <div className="w-full my-9 rounded-2xl min-h-[140vh] shadow border bg-white">
-                <p className="pl-4">aside right on lg screen</p>
+            <div className="w-full my-9 rounded-2xl min-h-[140vh] shadow border bg-white px-4">
+              <div>
+                <h1 className="text-2xl font-bold py-7 text-center">Aside Contents would appear here</h1>
+                <p className='text-lg font-semibold text-center'>Jumbo jumbo jumbo....let's fill it up people.....lolllll</p>
+              </div>
             </div>
           </section>
           
@@ -170,7 +173,10 @@ const Articles = () => {
           </div>
         </div>}
         <section className="border shadow min-h-[40vw] w-full my-10 bg-white rounded-2xl">
-          <p className="pl-4">section last</p>
+          <div>
+            <h1 className="text-2xl font-bold pl-4 py-7 text-center">Final Contents would appear here</h1>
+            <p className='text-xl font-semibold text-center'>Bring back the zombies....let's fill up this place.....lolllll</p>
+          </div>
         </section>
       </div>
     </div>

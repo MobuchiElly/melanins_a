@@ -34,7 +34,7 @@ const Navbar = () => {
   ];
   // bg-gradient-to-bl from-slate-300 to-slate-500 border
   return (
-    <div className='top-0 left-0 bg-gradient-to-b from-slate-200 to-slate-100 h-36 z-50 shadow-sm'>
+    <div className='top-0 left-0 bg-gradient-to-b from-slate-200 to-slate-100 h-28 md:h-32 z-50 shadow-sm'>
       <div className='fixed top-0 left-0 lg:left-16 bg-slate-700 border-b border-gray-800 h-24 md:h-28 flex justify-between items-center w-screen lg:max-w-[90%] lg:mx-auto lg:rounded-br-2xl lg:rounded-bl-2xl px-4 text-white z-50 '>
         <h1 className='ml-0 lg:ml-5 text-4xl lg:text-3xl font-bold text-[#0eff]'>M<span className='text-slate-300'>E</span>LAN<span className='text-slate-300'>I</span>N A.</h1>
         

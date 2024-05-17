@@ -130,8 +130,11 @@ const Home = ({featuredPosts, err}) => {
         </div>
         )
       }
-      <section className="border shadow min-h-[40vw] w-full my-10 bg-white rounded-2xl">
-        <p className="pl-4">section last</p>
+      <section className="border shadow min-h-[40vw] w-full my-10 bg-white rounded-2xl p-2">
+        <div>
+          <h1 className="text-2xl font-bold pl-4 py-7 text-center">Final Contents would appear here</h1>
+          <p className='text-xl font-semibold text-center'>Bring ideas....let your imagination run wild.....lolllll</p>
+        </div>
       </section>
       
     </div>
