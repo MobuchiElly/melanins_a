@@ -176,7 +176,7 @@ const Articles = () => {
           <section className="border shadow min-h-[40vw] w-full my-10 bg-white rounded-2xl pb-6 lg:pb-1 px-2">
             <div>
               <h1 className="text-2xl font-bold lg:pl-4 py-7 text-center">Final Contents would appear here</h1>
-              <p className='text-xl font-semibold text-center'>Bring back the zombies....let's fill up this place.....lolllll</p>
+              <p className='text-xl font-semibold text-center'>Bring back the zombies....let us fill up this place.....lolllll</p>
           </div>
           </section>  
         </div> : <div className='pt-10 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div>
