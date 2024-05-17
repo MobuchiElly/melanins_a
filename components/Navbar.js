@@ -93,7 +93,7 @@ const Navbar = () => {
             </Link>
           ))) : (
             Items.filter(item => item.id !== 2 && item.route !== "admin").map((item) => (
-              <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg hover:bg-blue-800 duration-100 hover:text-yellow-500 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
+              <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 md:hover:text-yellow-500 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
                 toggleNav();
                 if (item.id === 5 && isAuthenticated) {
                   e.preventDefault();
