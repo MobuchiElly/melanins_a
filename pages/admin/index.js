@@ -21,8 +21,8 @@ const Index = () => {
   }
 
   return (
-    <div className='min-h-96 flex justify-center text-sm border  w-screen lg:max-w-[90%] md:mx-auto px-8 pb-8'>
-      <div className='bg-gray-50 border-2 max-w-48 min-w-[85%]'>
+    <div className='min-h-96 flex justify-center text-sm border  w-full lg:max-w-[90%] md:mx-auto pb-8'>
+      <div className='bg-gray-50 border-2 mx-3 lg:mx-2 md:mx-4 md:max-w-48 min-w-[85%]'>
         <h1 className='text-3xl text-center font-bold pb-4 pt-1'>Administration Dashboard</h1>
         <div className='bg-slate-600 text-white flex'>
           <Link href="" onClick={()=>handleTab('create')} className={`flex-1 mr-2 p-4 text-center ${ tab.create ? 'bg-slate-700' : ''}`}>Create Article</Link>

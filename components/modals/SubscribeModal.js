@@ -28,11 +28,11 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
 
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 w-full flex justify-center items-center z-50'>
-        <div className='bg-white p-6 min-h-[40vh] flex flex-col justify-center rounded-2xl font-mono relative'>
+        <div className='bg-white p-6 min-h-[40vh] flex flex-col justify-center rounded-2xl font-mono relative mb-12 lg:mb-0 mx-5'>
             <span className="absolute top-0 right-6 text-2xl cursor-pointer" onClick={()=>setopensubscribeModal(false)}>&times;</span>
-            <h1 className='text-xl font-[500] mt-3'>Never miss out on the latest gist and gossip</h1>
+            <h1 className='text-xl font-[500] mt-3 lg:0'>Never miss out on the latest gist and gossip</h1>
             <label className='mt-8'>
-                <span className='py-2 text-lg '>Email Address:</span>
+                <span className='py-2 text-lg pl-2 lg:0'>Email Address:</span>
                 <input type="email" placeholder="melanin@gmail.com" onChange={(e) => {setError('');setEmail(e.target.value)}} className='w-full border shadow-md p-3 rounded-lg my-1'/>
                 <button className='border shadow bg-green-600 text-white px-6 py-4 rounded-xl mt-4' onClick={handleSubmit}>Subscribe</button>
             </label>

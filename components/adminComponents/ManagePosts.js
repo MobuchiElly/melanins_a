@@ -139,7 +139,7 @@ const ManagePosts = () => {
                     Search
                 </button>
             </div>
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1 mt-3 pl-1 mb-2">
+            <div className="grid grid-cols-2 pl-2 md:grid-cols-4 lg:grid-cols-6 gap-1 mt-3 mb-2 py-1">
                 {allTags && allTags.map((tag, index) => (
                     <label className="mr-2 flex items-center" key={index}>
                     <input
