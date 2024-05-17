@@ -17,18 +17,23 @@ const Home = ({featuredPosts, err}) => {
       
       remPosts.length % 2 === 0 ? setFeaturedPost(remPosts.slice(0, remPosts.length)) : setFeaturedPost(remPosts.slice(0, remPosts.length-1));
       setLoading(false);
-    }   
+    }
   }, [featuredPosts]);
 
-  
+  console.log(featuredPosts.length)
   return (
-    <div className="w-screen lg:max-w-[90%] md:mx-auto px-6 pb-10 min-h-[80vh]">
-      {(!featuredPosts && !loading && error) ? <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1> : <div className='bg-white rounded-xl shadow-sm'>
-        <h1 className="text-3xl font-bold mb-4 ml-3 p-2 text-center">Top Stories: Technology, Entertainment, Sports, Gossip</h1>
-      </div>}
+    <div className="w-full lg:max-w-[90%] md:mx-auto px-6 pb-10 min-h-[80vh]">
+      {/* Error Check */}
+      {error && <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1>}
+      {/* Loading check */}
       {
-        loading ? <div className='flex pt-12 pr-9 justify-center w-screen h-96'><ClipLoader color={"#52bfd9"} size={200}/></div> : (
-        <div>
+        loading ? 
+        <div className='flex pt-12 pr-9 justify-center w-screen h-96'><ClipLoader color={"#52bfd9"} size={200}/></div> 
+        : 
+        (featuredPosts && featuredPosts.length > 0) ? <div>
+          <div className='bg-white rounded-xl shadow-sm'>
+            <h1 className="text-2xl lg:text-3xl font-bold mb-4 ml-3 p-2 ">Top Stories: Technology, Entertainment, Gossip<span className='hidden lg:inline'>, Sports</span></h1>
+          </div>
           {featuredPost1 && featuredPost1.length > 0 && <section className="bg-white p-6 rounded-xl shadow flex flex-col lg:flex-row my-6">
             <div className="h-auto shadow-slate-200 shadow rounded lg:mr-5 bg-transparent">
               <Image
@@ -56,7 +61,6 @@ const Home = ({featuredPosts, err}) => {
               </div>
             </article>
           </section>}
-            
           <div className='flex flex-col lg:flex-row gap-2'>
             <div className={featuredPosts ?"grid grid-cols-1 md:grid-cols-2 gap-4" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-white bg-opacity-50 h-auto lg:h-40" }>
             {featuredPost && Array.isArray(featuredPost) ? featuredPost.map((post, index) => (
@@ -71,13 +75,11 @@ const Home = ({featuredPosts, err}) => {
                   </Link>
                 </button>
                 <div className='mt-2 px-2 py-2 rounded flex-2/3 font-semibold text-sm'>Author: {post.author}</div>
-               </div>
+                </div>
             </div>
             )) : ''}
             </div>
-
             <section className="lg:min-w-[25vw] lg:ml-4 mt-7 lg:mt-0">
-              
               <div className="w-full bg-white border shadow py-9 px-7 mb-6 rounded-2xl">
                   <div className="flex items-center p-1 mb-3">
                     <h1 className="font-[600] text-xl mb-1">Recent Posts</h1>
@@ -96,7 +98,6 @@ const Home = ({featuredPosts, err}) => {
                     <p>post title here</p>
                   </div>
               </div>
-
               <div className="w-full bg-white border shadow py-10 px-7 mb-6 rounded-2xl">
                   <div className="flex items-center p-1 mb-3">
                     <h1 className="font-[600] text-xl mb-1">Trending</h1>
@@ -110,7 +111,6 @@ const Home = ({featuredPosts, err}) => {
                   <p>post 1</p>
                   <p>post 1</p>
               </div>
-
               <div className="w-full bg-white  items-center border shadow rounded-2xl mt-4 py-8 px-7">
                 <div className="flex items-center p-1 mb-3">
                   <h1 className="font-[600] text-xl mb-1">Categories</h1>
@@ -125,17 +125,16 @@ const Home = ({featuredPosts, err}) => {
                 </div>
               </div>
             </section>
-            
-          </div>
-        </div>
-        )
+          </div>     
+          <section className="border shadow min-h-[40vw] w-full my-10 bg-white rounded-2xl p-2">
+            <div>
+              <h1 className="text-2xl font-bold pl-4 py-7 text-center">Final Contents would appear here</h1>
+              <p className='text-xl font-semibold text-center'>Bring ideas....let your imagination run wild.....lolllll</p>
+            </div>
+          </section>
+        </div> : <div className='flex pt-12 pr-9 justify-center w-full h-96'><ClipLoader color={"#52bfd9"} size={200}/></div>
       }
-      <section className="border shadow min-h-[40vw] w-full my-10 bg-white rounded-2xl p-2">
-        <div>
-          <h1 className="text-2xl font-bold pl-4 py-7 text-center">Final Contents would appear here</h1>
-          <p className='text-xl font-semibold text-center'>Bring ideas....let your imagination run wild.....lolllll</p>
-        </div>
-      </section>
+      
       
     </div>
   );
@@ -158,6 +157,7 @@ export const getServerSideProps = async({query}) => {
     return {
       props: {
         err: 'Oops there seems to be an issue. Please refresh your browser',
+        featuredPosts: []
       }
     }
   }
