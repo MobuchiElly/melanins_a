@@ -4,6 +4,7 @@ import axiosInstance from '@/utils/axios';
 import Image from 'next/image';
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Head from 'next/head';
 
 const Home = ({featuredPosts, err}) => {
   const [featuredPost, setFeaturedPost] = useState([]);
@@ -24,6 +25,11 @@ const Home = ({featuredPosts, err}) => {
   console.log(featuredPosts.length)
   return (
     <div className="w-full lg:max-w-[90%] md:mx-auto px-6 pb-10 min-h-[80vh]">
+      <Head>
+        <title>Melanin A Blog</title>
+        <meta name="description" content="Current News, Exclusive Info and Gossip" />
+        <meta name="keywords" content="blog, gossip, news" />
+      </Head>
       {/* Error Check */}
       {error && <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1>}
       {/* Loading check */}
