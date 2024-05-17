@@ -23,7 +23,7 @@ const Home = ({featuredPosts, err}) => {
   
   return (
     <div className="w-screen lg:max-w-[90%] md:mx-auto px-6 pb-10 min-h-[80vh]">
-      {(!featuredPosts && !loading && error) ? <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1> : <div className='bg-yellow-50 rounded-xl shadow'>
+      {(!featuredPosts && !loading && error) ? <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1> : <div className='bg-white rounded-xl shadow-sm'>
         <h1 className="text-3xl font-bold mb-4 ml-3 p-2 text-center">Top Stories: Technology, Entertainment, Sports, Gossip</h1>
       </div>}
       {

@@ -67,7 +67,7 @@ const Articles = () => {
   return (
     <div className="">
       <div className="w-screen max-w-[96%] lg:max-w-[90%] mx-auto pb-10 min-h-[80vh]">
-      {(!posts && !loading && error) ? <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1> : <div className='bg-yellow-50 rounded-xl shadow'>
+      {(!posts && !loading && error) ? <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1> : <div className='bg-white rounded-xl shadow-sm'>
         <h1 className="text-3xl font-bold mb-4 ml-3 p-2 text-center">News, Technology, Entertainment, Sports, Gossip</h1>
       </div>}
         { loading ? <div className='pt-6 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div> :  
