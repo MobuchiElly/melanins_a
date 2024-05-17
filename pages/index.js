@@ -53,6 +53,7 @@ const Home = ({featuredPosts, err}) => {
                   height={400}
                   layout="responsive"
                   className="w-1/2 md:pr-6 lg:pr-0 object-cover shadow-sm max-h-[50vh] md:mt-9 lg:mt-0 rounded z-30"
+                  // priority
               />
             </div>
             <article className='lg:w-1/2 lg:p-2 mx-1'>

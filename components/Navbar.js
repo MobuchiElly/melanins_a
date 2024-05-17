@@ -69,8 +69,8 @@ const Navbar = () => {
             </button>
         </ul>
         {/* Mobile Nav Icon*/}
-        <div className='block md:hidden mr-4' onClick={toggleNav}>
-          {nav ? <AiOutlineClose size={28} /> : <AiOutlineMenu size={28} />}
+        <div className='block md:hidden mr-1' onClick={toggleNav}>
+          {nav ? <AiOutlineClose size={29} /> : <AiOutlineMenu size={28} />}
         </div>
         
         {/* Mobile Nav Menu */}
