@@ -82,7 +82,7 @@ const Navbar = () => {
           <h1 className='w-full text-3xl font-bold text-[#00ef] m-4'>M<span className='text-slate-200'>E</span>LAN<span className='text-slate-200'>I</span>N A.</h1>
           {/* Mobile Items */}
           {admin ? (Items.map(item => (
-            <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg hover:bg-blue-800 duration-300 hover:text-yellow-500 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
+            <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-300 md:hover:text-yellow-500 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
               toggleNav();
               if (item.id === 5 && isAuthenticated) {
                 e.preventDefault();
