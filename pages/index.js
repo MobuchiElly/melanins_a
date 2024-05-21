@@ -22,7 +22,6 @@ const Home = ({featuredPosts, err}) => {
     }
   }, [featuredPosts]);
 
-  console.log(featuredPosts.length)
   return (
     <div className="w-full lg:max-w-[90%] md:mx-auto px-6 pb-10 min-h-[80vh]">
       <Head>

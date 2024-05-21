@@ -41,7 +41,6 @@ const Articles = () => {
  
   useEffect(() => {
     fetchPosts();
-    return () => {}
   }, [searchTerm, selectedTags]);
   
   useEffect(() => {
@@ -141,7 +140,7 @@ const Articles = () => {
             </section>
             <div className={posts ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : ''}>
               {posts && Array.isArray(posts) && posts.map((article) => (
-                <div key={article._id} className="bg-white pb-2 px-3 rounded shadow h-auto max-h-[90vh]">
+                <div key={article._id} className="bg-white pb-2 px-3 rounded shadow h-auto min-h-[102vh] border-2 border-red-400">
                   <div className="h-auto shadow-slate-200 shadow rounded">
                     {article.image && (
                       <Image
@@ -154,12 +153,12 @@ const Articles = () => {
                       />
                     )}
                   </div>
-                  <div className="py-1 max-h-[52]">
-                    <div className="h-48">
-                      <h2 className="text-xl font-bold mt-4 mb-2">{article.title}</h2>
-                      <p className="mb-2">{article.content.length>190 ? article.content.slice(0, 190) + '.........' : article.content}</p>
+                  <div className="py-1 border border-green-500">
+                    <div className="h-auto ">
+                      <h2 className="text-xl font-bold mt-4 border-2 h-16">{article.title}</h2>
+                      <p className=" min-h-28 pb-4">{article.content.length>190 ? article.content.slice(0, 190) + '.........' : article.content}</p>
                     </div>
-                    <div className="mt-4">
+                    <div className="border border-black py-1">
                       <p className="text-gray-600 text-sm py-2 mb-1">Published by {article.author} <span className='font-extrabold'>|</span> {new Date(article.createdAt).toDateString()}</p>
                       <button className="bg-cyan-700 bg-opacity-90 hover:bg-cyan-800 text-white px-4 py-2 rounded ">
                         <a href={`/post/${article._id}`} className="text-white">Read Article</a>

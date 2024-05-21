@@ -70,11 +70,11 @@ const Navbar = () => {
         </ul>
         {/* Mobile Nav Icon*/}
         <div className='block md:hidden mr-1' onClick={toggleNav}>
-          {nav ? <AiOutlineClose size={29} /> : <AiOutlineMenu size={28} />}
+          {nav ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
         </div>
         
         {/* Mobile Nav Menu */}
-        <ul className={nav ? 'fixed md:hidden left-0 z-50 top-0 w-[60%] h-full border-r border-r-gray-900 pt-7 bg-gradient-to-bl from-[#000300] to-gray-900 ease-in-out duration-500' : 'ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]'} style={{ zIndex: 100 }}>
+        <ul className={nav ? 'fixed md:hidden left-0 z-50 top-0 w-[70%] h-full border-r border-r-gray-900 pt-7 bg-gradient-to-bl from-[#000300] to-gray-900 ease-in-out duration-300' : 'ease-in-out w-[62%] duration-300 fixed top-0 bottom-0 left-[-100%]'} style={{ zIndex: 100 }}>
           <div className='block md:hidden ml-4'>
             <AiOutlineClose size={16} onClick={toggleNav} />
           </div>
@@ -82,7 +82,7 @@ const Navbar = () => {
           <h1 className='w-full text-3xl font-bold text-[#00ef] m-4'>M<span className='text-slate-200'>E</span>LAN<span className='text-slate-200'>I</span>N A.</h1>
           {/* Mobile Items */}
           {admin ? (Items.map(item => (
-            <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-300 md:hover:text-yellow-500 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
+            <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
               toggleNav();
               if (item.id === 5 && isAuthenticated) {
                 e.preventDefault();
@@ -93,7 +93,7 @@ const Navbar = () => {
             </Link>
           ))) : (
             Items.filter(item => item.id !== 2 && item.route !== "admin").map((item) => (
-              <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 md:hover:text-yellow-500 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
+              <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
                 toggleNav();
                 if (item.id === 5 && isAuthenticated) {
                   e.preventDefault();
@@ -104,7 +104,7 @@ const Navbar = () => {
               </Link>
             ))
           )}
-          <button onClick={() =>setopensubscribeModal(true)} className='delay-105 w-full flex justify-start items-center rounded font-[500] p-4 hover:bg-blue-800 border-b hover:text-yellow-500 border-gray-600'>
+          <button onClick={() =>setopensubscribeModal(true)} className='delay-105 w-full flex justify-start items-center rounded font-[500] p-4 hover:bg-blue-800 border-b hover:text-yellow-500 border-gray-600 duration-300'>
             <span className='mr-1'>Subscribe</span>
             <IoMdNotificationsOutline size={24} color="yellow" className='hover:hover:text-yellow-500'/>
           </button>
