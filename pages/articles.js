@@ -61,7 +61,7 @@ const Articles = () => {
 
   return (
     <div className="">
-      <div className="w-screen max-w-[96%] lg:max-w-[90%] mx-auto pb-10 min-h-[80vh]">
+      <div className="w-screen max-w-[96%] lg:max-w-[90%] mx-auto pb-10 min-h-[80vh] px-4">
       {(!posts && !loading && error) && <h1 className='text-2xl text-center mt-10 text-slate-700 font-semibold italic'>{error}</h1>}
 
         { loading ? 
