@@ -79,7 +79,7 @@ const Navbar = () => {
             <AiOutlineClose size={16} onClick={toggleNav} />
           </div>
           {/* Mobile logo */}
-          <h1 className='w-full text-3xl font-bold text-[#00ef] m-4'>M<span className='text-slate-200'>E</span>LAN<span className='text-slate-200'>I</span>N A.</h1>
+          <h1 className='w-full text-3xl font-bold text-[#0eef] m-4'>M<span className='text-slate-200'>E</span>LAN<span className='text-slate-200'>I</span>N A.</h1>
           {/* Mobile Items */}
           {admin ? (Items.map(item => (
             <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => {
