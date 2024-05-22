@@ -57,7 +57,7 @@ const Auth = () => {
             email,
             uid
         }));
-        router.push('/');
+        router.back() || router.push('/');
       }
     } catch (error) {
       setAuthLoading(false);
