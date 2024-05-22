@@ -21,29 +21,37 @@ const Post = ({uid}) => {
             try{
                 const res = await axiosInstance.get('/blog/' + postId);
                 const data = await res.data;
-                data ? setLoading(false) :  null;
-                setPost(data.data);
-                setLiked(data.isLiked);
-                setLikes(data.totalLikes);
-                setComments(data.data.comments);
+                if(data ){
+                    setPost(data.data);
+                    setLiked(data.isLiked);
+                    setLikes(data.totalLikes);
+                    setComments(data.data.comments);
+                }
             }catch(err){
                 console.log(err);
             }
         }
     }
 
-    const handleLike = () => {
-        if(uid){
-            if(liked){
-                const res = axiosInstance.delete(`/blog/${postId}/likes`);
-                if(res.status == 200){
-                    setLikes((prevLikes) => prevLikes - 1);
+    const handleLike = async() => {
+        if(uid){ console.log("uid:",uid); console.log("isLiked:",liked);
+            try{
+                if(liked){
+                    const res = await axiosInstance.delete(`/blog/${postId}/likes`);
+                    console.log("res",res.data);
+                    if(res.data){
+                        setLikes(res.data.post.likes.length);
+                    }
+                    console.log("likes: ", likes)
+                } else {
+                    const res = await axiosInstance.post(`/blog/${postId}/likes`);
+                    if(res.data){
+                        setLikes((prevLikes) => prevLikes + 1);
+                    }
+                    console.log("likes: ", likes)
                 }
-            } else {
-                const res = axiosInstance.post(`/blog/${postId}/likes`);
-                if(res.status===201){
-                    setLikes((prevLikes) => prevLikes + 1);
-                }
+            } catch(err) {
+                console.log(err);
             }
         } else {
             router.push('/auth');
@@ -62,14 +70,19 @@ const Post = ({uid}) => {
     const handleComment = async() => {
         if(uid){
             const createdComment = textFommater(comment);
-            const res = await axiosInstance.post('/comments/' + postId, {
-            "content": createdComment
-            });
-            setLoading(true);
-            if(res.status == 201){
-                setComments(prevComments => [...prevComments, createdComment]);
+            try{
+                const res = await axiosInstance.post('/comments/' + postId, {
+                    "content": createdComment
+                    });
+                setLoading(true);
+                if(res.status == 201){
+                    setComments(prevComments => [...prevComments, createdComment]);
+                    setComment('');
+                }
+            } catch(err){
+                console.log(err);
+            } finally{
                 setLoading(false);
-                setComment('');
             }
         } else {
             router.push('/auth');
@@ -79,10 +92,6 @@ const Post = ({uid}) => {
 
     useEffect(() => {
       fetchSinglePost();
-        
-      return () => {
-        fetchSinglePost;
-      }
     }, [postId]);
 
 
@@ -93,7 +102,7 @@ const Post = ({uid}) => {
             : 
             <div className="bg-white rounded-xl px-2 py-2">
                 <h1 className="text-6xl font-bold mb-6 text-center py-4 px-2">{post.title}</h1>
-                <div className="max-w-[90%] lg:max-w-[80%] mx-auto">
+                <div className="md:max-w-[90%] lg:max-w-[80%] mx-auto">
                     <div className="flex  items-center justify-center gap-4 p-2">
                     <Image src="https://images.unsplash.com/photo-1715584083775-30132089b98d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8" alt={`image for ${post.title}`} width={60} height={100} className="h-16 lg:h-14 rounded-full ml-8 md:ml-0 mr-2 md:mr-2"/>
                         <p className="text-black  text-xl flex flex-wrap lg:flex-nowrap gap-2 lg:gap-4">
