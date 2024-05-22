@@ -96,7 +96,7 @@ const Post = ({uid}) => {
 
 
     return (
-        <div className="w-screen max-w-[96%] lg:max-w-[85%] mx-auto pb-10 min-h-[80vh] px-4 z-20">
+        <div className="w-screen max-w-[96%] lg:max-w-[85%] mx-auto pb-10 min-h-[80vh] px-1 lg:px-4 z-20">
             { loading ? 
             <div className='flex justify-center h-80 items-center pb-2'><FadeLoader size={300}/></div> 
             : 
