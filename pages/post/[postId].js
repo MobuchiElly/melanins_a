@@ -41,14 +41,15 @@ const Post = ({uid}) => {
                     const res = await axiosInstance.delete(`/blog/${postId}/likes`);
                     if(res.data){
                         setLikes(prevLikes => prevLikes - 1);
+                        setLiked(!liked);
                     }
                 } else {
                     const res = await axiosInstance.post(`/blog/${postId}/likes`);
                     if(res.data){
                         setLikes(prevLikes => prevLikes + 1);
+                        setLiked(!liked);
                     }
                 }
-                setLiked(!liked);
             } catch(err) {
                 console.log(err);
             }
