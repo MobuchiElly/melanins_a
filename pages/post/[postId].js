@@ -26,6 +26,7 @@ const Post = ({uid}) => {
                     setLiked(data.isLiked);
                     setLikes(data.totalLikes);
                     setComments(data.data.comments);
+                    setLoading(false);
                 }
             }catch(err){
                 console.log(err);
