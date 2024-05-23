@@ -35,12 +35,10 @@ const Post = ({uid}) => {
     }
 
     const handleLike = async() => {
-        if(uid){ console.log("uid:",uid); 
-        console.log("liked:",liked);
+        if(uid){
             try{
                 if(liked){
                     const res = await axiosInstance.delete(`/blog/${postId}/likes`);
-                    console.log("res",res.data);
                     if(res.data){
                         setLikes(prevLikes => prevLikes - 1);
                     }
@@ -58,7 +56,7 @@ const Post = ({uid}) => {
             router.push('/auth');
         }
     };
-    console.log("likes:", likes);
+
     const textFommater = (input) => {
         let text = input.trim();
         const t = text.replace(/(\.\s*\w)/g, function(match){
