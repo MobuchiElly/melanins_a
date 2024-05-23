@@ -21,7 +21,7 @@ const Post = ({uid}) => {
             try{
                 const res = await axiosInstance.get('/blog/' + postId);
                 const data = await res.data;
-                if(data ){
+                if(data){
                     setPost(data.data);
                     setLiked(data.isLiked);
                     setLikes(data.totalLikes);
@@ -35,22 +35,22 @@ const Post = ({uid}) => {
     }
 
     const handleLike = async() => {
-        if(uid){ console.log("uid:",uid); console.log("isLiked:",liked);
+        if(uid){ console.log("uid:",uid); 
+        console.log("liked:",liked);
             try{
                 if(liked){
                     const res = await axiosInstance.delete(`/blog/${postId}/likes`);
                     console.log("res",res.data);
                     if(res.data){
-                        setLikes(res.data.post.likes.length);
+                        setLikes(prevLikes => prevLikes - 1);
                     }
-                    console.log("likes: ", likes)
                 } else {
                     const res = await axiosInstance.post(`/blog/${postId}/likes`);
                     if(res.data){
-                        setLikes((prevLikes) => prevLikes + 1);
+                        setLikes(prevLikes => prevLikes + 1);
                     }
-                    console.log("likes: ", likes)
                 }
+                setLiked(!liked);
             } catch(err) {
                 console.log(err);
             }
@@ -58,7 +58,7 @@ const Post = ({uid}) => {
             router.push('/auth');
         }
     };
-
+    console.log("likes:", likes);
     const textFommater = (input) => {
         let text = input.trim();
         const t = text.replace(/(\.\s*\w)/g, function(match){
@@ -102,7 +102,7 @@ const Post = ({uid}) => {
             <div className='flex justify-center h-80 items-center pb-2'><FadeLoader size={300}/></div> 
             : 
             <div className="bg-white rounded-xl px-2 py-2">
-                <h1 className="text-6xl font-bold mb-6 text-center py-4 px-2">{post.title}</h1>
+                <h1 className="text-6xl font-bold mb-2 lg:mb-6 text-center py-4 px-2">{post.title}</h1>
                 <div className="md:max-w-[90%] lg:max-w-[80%] mx-auto">
                     <div className="flex  items-center justify-center gap-4 p-2">
                     <Image src="https://images.unsplash.com/photo-1715584083775-30132089b98d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8" alt={`image for ${post.title}`} width={60} height={100} className="h-16 lg:h-14 rounded-full ml-8 md:ml-0 mr-2 md:mr-2"/>
@@ -121,8 +121,8 @@ const Post = ({uid}) => {
                         <p className="text-gray-950 text-2xl">{post.content}</p>
                     </div>
                     <div className="mt-4">
-                        <button className="bg-gradient-to-tl from-cyan-500 to-pink-400 text-white px-6 py-2 rounded-lg mr-2 hover:shadow-md group" onClick={handleLike}>
-                            <MdThumbUp size={28} color={liked?'blue':'white'} className=" group-hover:animate-bounce"/>
+                        <button className="bg-gradient-to-tl from-cyan-500 to-pink-400 text-white px-6 py-2 rounded-lg mr-2 hover:shadow-md lg:group" onClick={handleLike}>
+                            <MdThumbUp size={28} color={liked?'blue':'white'} className=" lg:group-hover:animate-bounce"/>
                         </button>
                         <span className="px-1 font-mono text-3xl text-slate-700">{likes}</span>
                     </div>
@@ -134,7 +134,7 @@ const Post = ({uid}) => {
                     </div>
                     <div className="mt-10 mb-6 py-2 bg-white">
                         {comments && comments.map((comment, index) => (
-                            <div key={index} className="bg-gray-100 p-2 py-3 rounded-sm mt-3 font-mono">
+                            <div key={index} className="bg-gray-100 py-3 rounded-sm mt-3 font-mono px-5">
                                 <span className='text-md'>{comment.content}</span>
                                 <span className='text-sm '> - {comment.writer}</span>
                             </div>
