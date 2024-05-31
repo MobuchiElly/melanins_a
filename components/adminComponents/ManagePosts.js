@@ -18,7 +18,6 @@ const ManagePosts = () => {
     const [selectedTags, setSelectedTags] = useState(new Set());
     const [strTags, setStrTags] = useState('');
     const [image, setImage] = useState(null);
-    console.log("image",image)
     const handleSearch = () => {
         fetchPosts();
         setCurrentPage(1);

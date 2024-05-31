@@ -11,7 +11,6 @@ const Home = ({featuredPosts, recentPosts, err}) => {
   const [featuredPost1, setfeaturedPost1] = useState({})
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  console.log('recentPosts:', recentPosts)
   useEffect(() => {
     if(featuredPosts && Array.isArray(featuredPosts)) {
       setfeaturedPost1(featuredPosts.slice(0, 1));
@@ -130,7 +129,7 @@ const Home = ({featuredPosts, recentPosts, err}) => {
                   {recentPosts && recentPosts.slice(recentPosts.length-1,recentPosts.length).map((article) => (
                     <div key={article._id} className="bg-gray-400 w-full relative rounded-lg outline-none hover:shadow-2xl group">
                       <Image src={article.image} alt="recent" height={200} width={200} className="w-full h-full rounded-lg"/>
-                        <span className="absolute top-12 lg:top-44 text-center text-white w-full text-wrap px-6 italic cursor-pointer   delay-100">
+                        <span className="absolute bottom-2 lg:top-44 text-center text-white w-full text-wrap px-6 italic cursor-pointer   delay-100 bg-black bg-opacity-20">
                           <h1 className="lg:font-semibold text-xl lg:text-3xl hover:underline hover:scale-105 lg:p-2 delay-75 text-wrap">{article.title}</h1>
                           <p className="hidden lg:block text-xl hover:underline hover:scale-95 p-1 delay-75">{article.content.slice(0, 110)}...</p>
                         </span>

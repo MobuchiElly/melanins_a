@@ -171,7 +171,7 @@ const Articles = ({recentPosts}) => {
                     {recentPosts && recentPosts.slice(0,1).map((article) => (
                       <Link href={'post/' + article._id} key={article._id} className="bg-gray-400 w-full relative rounded hover:shadow-2xl group">
                         <Image src={article.image} alt="recent" height={200} width={200} className="w-full h-full rounded-lg"/>
-                        <span className="absolute top-14 lg:top-44 text-center  text-white w-full text-wrap px-6 italic cursor-pointer delay-100 min-h-16">
+                        <span className="absolute bottom-2 lg:top-44 text-center  text-white w-full text-wrap px-6 italic cursor-pointer delay-100 min-h-16 bg-black bg-opacity-20">
                           <h1 className="font-semibold text-xl lg:text-3xl cursor-pointer hover:text-gray-50 hover:underline hover:underline-offset-1 hover:scale-105 p-2 delay-75">{article.title}</h1>
                           <p className="text-xl cursor-pointer hover:text-gray-50 hover:scale-105 p-1 delay-75 hidden lg:block">{article.content.slice(0, 110)}</p>
                         </span>
