@@ -24,7 +24,6 @@ const nextConfig = {
   env: {
     ENDPOINT_URL: endpoint_url,
   },
-  icons: true,
 };
 
 export default nextConfig;

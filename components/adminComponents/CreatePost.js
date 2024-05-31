@@ -12,7 +12,7 @@ const CreatePost = () => {
     const [featured, setFeatured] = useState(false);
     const [error, setError] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
-    console.log("file:", image);
+
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -28,7 +28,6 @@ const CreatePost = () => {
 
             const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
             const { url } = await uploadRes.data;
-            console.log("url: ",url);
             
             if (url) {
                 const res = await axiosInstance.post('/blog', {
@@ -45,11 +44,9 @@ const CreatePost = () => {
                     setAuthor('');
                     setTags('');
                     setError('');
-                    FileSystemFileEntry(null);
                     setFeatured(false);
                     setModalOpen(false);
                 }
-                console.log("successully made post")
             }
             
         } catch (err) {

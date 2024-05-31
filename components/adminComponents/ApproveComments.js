@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
 import axiosInstance from "@/utils/axios";
-import useAuthHook from "../hooks/authHook";
 import Tab from "../modals/Tab";
 
 const ApproveComment = () => {
-    const { isAuthenticated, admin } = useAuthHook();
     const [pendingComments, setPendingComments] = useState([]);
     const [approvedComments, setApprovedComments] = useState([]);
     const [error, setError] = useState('');
@@ -14,11 +11,7 @@ const ApproveComment = () => {
     const [activeTab, setActiveTab] = useState("pending");
     const [loading, setLoading] = useState(true);
     
-    useEffect(() => {
-        fetchPendingComments();
-        fetchApprovedComments();
-    }, [])
-    
+
     const fetchPendingComments = async () => {
         try {
             const res = await axiosInstance.get('/comments?approved=false');
@@ -45,6 +38,11 @@ const ApproveComment = () => {
     }
 
     useEffect(() => {
+        fetchPendingComments();
+        fetchApprovedComments();
+    }, [])
+    
+    useEffect(() => {
         if (error) {
             setPendingComments([]);
         }
@@ -53,7 +51,6 @@ const ApproveComment = () => {
         }
 
     }, [error, appError]);
-
 
     const handleTab = (tab) => {
         setActiveTab(tab);
@@ -89,7 +86,8 @@ const ApproveComment = () => {
         console.log(err);
       }
     }
-
+    
+    
     return (
         <div className="max-w-[80%] mx-auto bg-yellow-50 shadow-md rounded pb-8 my-4 min-h-80 overflow-x-visible">
             <div className="flex justify-around bg-gray-300">
@@ -115,7 +113,7 @@ const ApproveComment = () => {
                             <tr key={comment._id}>
                                 <td className="border px-4 py-2">{comment.writer}</td>
                                 <td className="border px-4 py-2">{comment.content}</td>
-                                <td className="border px-4 py-2">Post title here</td>
+                                <td className="border px-4 py-2">{comment?.blogPostId?.title}</td>
                                 <td className="border px-1 min-w-8 py-2 flex gap-1">
                                 <button className=" bg-[#19959e] hover:bg-[#0f6268] text-white font-semibold py-2 px-3 rounded" onClick={() => handleEdit(comment._id, "approve")}>aprv</button>
                                 <button className="inline-table bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-3 rounded" onClick={() => handleDelete(comment._id)}>del</button>
@@ -138,7 +136,7 @@ const ApproveComment = () => {
                         <tr key={comment._id}>
                             <td className="border px-4 py-2">{comment.writer}</td>
                             <td className="border px-4 py-2">{comment.content}</td>
-                            <td className="border px-4 py-2">Post title here</td>
+                            <td className="border px-4 py-2">{comment?.blogPostId?.title}</td>
                             <td className="border px-1 min-w-8 py-2 flex gap-1">
                             <button className=" bg-[#19959e] hover:bg-[#0f6268] text-white font-semibold py-2 px-3 rounded" onClick={() => handleEdit(comment._id, "dismiss")}>pend</button>
                             <button className="inline-table bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-3 rounded" onClick={() => handleDelete(comment._id)}>del</button>

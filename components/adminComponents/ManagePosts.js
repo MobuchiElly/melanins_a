@@ -7,6 +7,7 @@ import Image from 'next/image';
 const ManagePosts = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedPost, setSelectedPost] = useState(null);
+    const [selectedPostImage, setselectedPostImage] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +18,7 @@ const ManagePosts = () => {
     const [selectedTags, setSelectedTags] = useState(new Set());
     const [strTags, setStrTags] = useState('');
     const [image, setImage] = useState(null);
-
+    console.log("image",image)
     const handleSearch = () => {
         fetchPosts();
         setCurrentPage(1);
@@ -25,7 +26,6 @@ const ManagePosts = () => {
 
     const handleEdit = async(post) => {
         setSelectedPost(post);
-        console.log(selectedPost);
         setIsEditing(true);
     };
 
@@ -38,19 +38,18 @@ const ManagePosts = () => {
 
             const { title, content} = selectedPost;
             
-            const selectedPostTags = selectedPost.tags.map(tag=>tag.trim()).filter(tag=>tag !== ""); console.log(selectedPostTags)
+            const selectedPostTags = selectedPost.tags.map(tag=>tag.trim()).filter(tag=>tag !== "");
             if(title || content || image || selectedPostTags){
                 const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
                 const {url} = await uploadRes.data;
-                if(url){
-                    const updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags, image:url});
+                
+                const updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags, image:url});
                 if(updatedPost){
                     setPosts(prevPosts => prevPosts.map(post => post._id===selectedPost._id ? selectedPost : post));
                     //  setAllTags(prevTags => [...prevTags, selectedPostTags])
                 }
                 setIsEditing(false);
                 setSelectedPost(null);
-                }
             }else{
                 setError('Title and Content are required');
                 console.error('Title and Content are required');
@@ -216,7 +215,7 @@ const ManagePosts = () => {
                 <div className='bg-white p-4 rounded shadow-md'>
                     <h4 className='text-lg mb-4 font-bold'>Edit Post</h4>
                     <div className='flex flex-col  lg:flex-row  items-start lg:items-end mb-1 min-h-[20vh] border border-gray-300 rounded px-2 pt-1'>
-                        <Image src={selectedPost.image} width={100} height={200} alt="" className="mr-2 rounded-md w-[48vw] lg:w-[28vw]  bg-gray-800 bg-opacity-10 h-[20vh] mb-2 lg:mb-0"/>
+                        <Image src={image ? URL.createObjectURL(image) : selectedPost.image} width={100} height={200} alt="" className="mr-2 rounded-md w-[48vw] lg:w-[28vw]  bg-gray-800 bg-opacity-10 h-[20vh] mb-2 lg:mb-0"/>
                         <div className='mb-1'>
                             <input type="file" onChange={(e) => setImage(e.target.files[0])}/>
                         </div>
