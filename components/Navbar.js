@@ -74,7 +74,7 @@ const Navbar = () => {
         </div>
         
         {/* Mobile Nav Menu */}
-        <ul className={nav ? 'fixed md:hidden left-0 z-50 top-0 w-[70%] h-full border-r border-r-gray-900 pt-7 bg-gradient-to-bl from-[#000300] to-gray-900 ease-in-out duration-300' : 'ease-in-out w-[62%] duration-50 fixed top-0 bottom-0 left-[-100%]'} style={{ zIndex: 100 }}>
+        <ul className={nav ? 'fixed md:hidden left-0 z-50 top-0 w-[70%] h-screen border-r border-r-gray-900 pt-7 bg-gradient-to-bl from-[#000300] to-gray-900 ease-in-out duration-300' : 'ease-in-out w-[62%] duration-50 fixed top-0 bottom-0 left-[-100%]'} style={{ zIndex: 100 }}>
           <div className='block md:hidden ml-4'>
             <AiOutlineClose size={16} onClick={toggleNav} />
           </div>
