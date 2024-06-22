@@ -22,7 +22,7 @@ const Home = ({featuredPosts, recentPosts, err}) => {
   }, [featuredPosts]);
 
   return (
-    <div className="w-full lg:max-w-[90%] md:mx-auto px-4 pb-4 lg:pb-10 min-h-[80vh]">
+    <div className="w-full lg:max-w-[90%] md:mx-auto px-3 pb-4 lg:pb-10 min-h-[80vh]">
       <Head>
         <title>Welcome to Melanin Amaras Blog</title>
         <meta name="description" content="Current News, Exclusive Info and Gossip" />
