@@ -49,6 +49,7 @@ const ManagePosts = () => {
                 }
                 setIsEditing(false);
                 setSelectedPost(null);
+                setImage(null);
             }else{
                 setError('Title and Content are required');
                 console.error('Title and Content are required');
