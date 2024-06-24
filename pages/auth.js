@@ -107,7 +107,7 @@ const Auth = () => {
       {authLoading && <div className="fixed inset-0 w-screen bg-black bg-opacity-15 z-50 flex justify-center items-center">
         <FadeLoader className="mt-12"/>
       </div>}
-      <div className="bg-gradient-to-tr from-gray-900 to-cyan-500 p-8 pt-12 rounded-tl-2xl rounded-br-3xl shadow-md mt-12 mb-2 md:mb-3 lg:mb-6 h-[50vh] lg:h-[60vh]">
+      <div className="bg-gradient-to-tr from-gray-900 to-cyan-500 p-8 pt-12 rounded-tl-2xl rounded-br-3xl shadow-md mt-16 mb-2 md:mb-3 lg:mb-6 h-[50vh] lg:h-[60vh]">
         <h2 className="text-2xl mb-4 font-semibold">{toggle ? "Register" : "Login"}</h2>
         <form onSubmit={toggle ? handleRegister : handleLogin}>
           {toggle && (
