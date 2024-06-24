@@ -103,7 +103,7 @@ const Auth = () => {
 
 
   return (
-    <div className="flex justify-center min-h-[80vh] text-white px-8 relative pt-2">
+    <div className="flex justify-center min-h-[80vh] text-white px-6 relative pt-2">
       {authLoading && <div className="fixed inset-0 w-screen bg-black bg-opacity-15 z-50 flex justify-center items-center">
         <FadeLoader className="mt-12"/>
       </div>}
