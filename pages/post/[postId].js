@@ -117,13 +117,13 @@ const Post = ({uid}) => {
                         <Image src={post.image} width={200} height={200} className="w-full h-auto max-h-[60vh]"/>
                     </div>
                     <div className="bg-white py-4 rounded md:px-1 lg:px-6">
-                        <p className="text-gray-950 text-2xl">{post.content}</p>
+                        <p  className="text-gray-950 text-xl overflow-auto break-words" style={{ wordWrap: 'break-word', maxWidth: '100%' }}>{post.content}</p>
                     </div>
                     <div className="mt-4">
                         <button className="bg-gradient-to-tl from-cyan-500 to-pink-400 text-white px-6 py-2 rounded-lg mr-2 hover:shadow-md lg:group" onClick={handleLike}>
-                            <MdThumbUp size={28} color={liked?'blue':'white'} className=" lg:group-hover:animate-bounce"/>
+                            <MdThumbUp size={15} color={liked?'blue':'white'} className=" lg:group-hover:animate-bounce"/>
                         </button>
-                        <span className="px-1 font-mono text-3xl text-slate-700">{likes}</span>
+                        <span className="px-1 font-mono text-2xl text-slate-700 pt-2">{likes}</span>
                     </div>
                     <div className="w-full h-1 bg-black bg-opacity-80 my-4"></div>
                     <div className="mt-4">
