@@ -103,11 +103,11 @@ const Auth = () => {
 
 
   return (
-    <div className="flex justify-center min-h-[80vh] text-white px-8 lg:px-1 relative">
+    <div className="flex justify-center min-h-[80vh] text-white px-8 relative pt-2">
       {authLoading && <div className="fixed inset-0 w-screen bg-black bg-opacity-15 z-50 flex justify-center items-center">
         <FadeLoader className="mt-12"/>
       </div>}
-      <div className="bg-gradient-to-tr from-gray-900 to-cyan-500 p-8 pt-12 rounded-tl-2xl rounded-br-3xl shadow-md mt-16 mb-2 md:mb-3 lg:mb-6 h-[50vh] lg:h-[60vh]">
+      <div className="bg-gradient-to-tr from-gray-900 to-cyan-500 p-8 pt-12 rounded-tl-2xl rounded-br-3xl shadow-md mt-16 h-[50vh] lg:h-[53vh]">
         <h2 className="text-2xl mb-4 font-semibold">{toggle ? "Register" : "Login"}</h2>
         <form onSubmit={toggle ? handleRegister : handleLogin}>
           {toggle && (
