@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axiosInstance from "@/utils/axios";
+import axios from "axios";
 
 export const SubscribeModal = ({setopensubscribeModal}) => {
   const [email, setEmail] = useState('');
@@ -14,12 +16,12 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
     }
     if(regex.test(email)){
       try{
-        const res = await axiosInstance.post('/mail/', {email});
+        const res = await axios.post('http://localhost:5000/api/v1/mail/', {email});
         setEmail('');
         setError('');
       } catch(err) {
         console.log(err);
-        setError('Please provide a valid email address and try again.');
+        err.code === "ERR_BAD_REQUEST" ? setError("Incorrect Login Credentialss") : error.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
       }
     } else {
       setError('Please provide a valid email address');
