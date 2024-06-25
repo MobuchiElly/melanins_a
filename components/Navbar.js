@@ -58,7 +58,7 @@ const Navbar = () => {
   const Items = [
     { id: 1, text: 'Home', route: '/' },
     { id: 4, text: 'Articles', route: '/articles' },
-    { id: 2, text: 'Admin', route: 'admin' },
+    { id: 2, text: 'Admin', route: '/admin' },
     { id: 5, text: isAuthenticated ? 'Signout' : 'Signin', route: !isAuthenticated ? '/auth' : '/' },
   ];
 
