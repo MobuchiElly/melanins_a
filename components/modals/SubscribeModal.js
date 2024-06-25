@@ -25,7 +25,7 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
       } catch(err) {
         console.log(err.code);
         setLoading(false);
-        err.code === "ERR_BAD_REQUEST" ? setError("Unsuccessful. Please try again") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
+        // err.code === "ERR_BAD_REQUEST" ? setError("Unsuccessful. Please try again") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
       }
     } else {
       setError('Please provide a valid email address');

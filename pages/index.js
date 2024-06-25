@@ -43,14 +43,14 @@ const Home = ({featuredPosts, recentPosts, err}) => {
             <h1 className="text-3xl text-center font-bold p-2">Welcome to Melanin Amaras Blog</h1>
           </div>
           {featuredPost1 && featuredPost1.length > 0 && <section className="bg-white p-6 rounded-xl shadow flex flex-col lg:flex-row my-6">
-            <div className="h-auto shadow-slate-200 shadow rounded lg:mr-5 bg-transparent">
+            <div className="h-auto shadow-slate-200 shadow rounded lg:mr-5 bg-slate-50 min-w-[40vw]">
               <Image
                   src={featuredPost1[0].image}
-                  alt="featuredPost1[0] image"
+                  alt="image"
                   width={400}
                   height={400}
                   layout="responsive"
-                  className="w-1/2 md:pr-6 lg:pr-0 object-cover shadow-sm max-h-[50vh] md:mt-9 lg:mt-0 rounded z-30"
+                  className="w-1/2 md:pr-6 lg:pr-0 object-cover shadow-sm max-h-[50vh] md:mt-9 lg:mt-0 rounded z-30" fetchPriority
               />
             </div>
             <article className='lg:w-1/2 lg:p-2 mx-1'>
@@ -127,8 +127,8 @@ const Home = ({featuredPosts, recentPosts, err}) => {
           <section className="border shadow lg:h-[75vh] w-full my-10 rounded-xl lg:px-2 lg:py-4 lg:bg-slate-50">
             <div className="lg:flex justify-evenly gap-3 h-full lg:px-4">
                   {recentPosts && recentPosts.slice(recentPosts.length-1,recentPosts.length).map((article) => (
-                    <div key={article._id} className="bg-gray-400 w-full relative rounded-lg outline-none hover:shadow-2xl group">
-                      <Image src={article.image} alt="recent" height={200} width={200} className="w-full h-full rounded-lg"/>
+                    <div key={article._id} className="bg-gray-300 w-full relative rounded-lg outline-none hover:shadow-2xl group">
+                      <Image src={article.image} alt="image" height={200} width={200} className="w-full h-full rounded-lg"/>
                         <span className="absolute bottom-0 left-0 right-0 lg:top-44 text-center text-white w-full text-wrap px-6 italic cursor-pointer   delay-100 bg-black bg-opacity-20">
                           <h1 className="lg:font-semibold text-xl lg:text-3xl hover:underline hover:scale-105 lg:p-2 delay-75 text-wrap">{article.title}</h1>
                           <p className="hidden lg:block text-xl hover:underline hover:scale-95 p-1 delay-75">{article.content.slice(0, 110)}...</p>

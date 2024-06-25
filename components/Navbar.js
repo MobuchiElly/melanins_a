@@ -15,6 +15,7 @@ const Navbar = () => {
   const { admin, dispatch, isAuthenticated } = useAuthHook();
   const [nav, setNav] = useState(false);
   const [opensubscribeModal, setopensubscribeModal] = useState(false);
+  
   const router = useRouter();
 
   const routeLoading = useSelector(state => state.routes);
@@ -23,7 +24,16 @@ const Navbar = () => {
   const toggleNav = () => {
     setNav(!nav);
   };
-  const handleRouting = (item) => {
+
+  const handleSignout = (e) => {
+    e.preventDefault();
+    dispatch(clearUser());
+    Cookies.remove('userState');
+    Cookies.remove('token');
+    router.push('/auth');
+  };
+
+  const handleRouting = (e, item) => {
     toggleNav();
     routeDispatch(setrouteLoading(true));
     if (item.id === 5 && isAuthenticated) {
@@ -46,15 +56,6 @@ const Navbar = () => {
   }, [router.events, routeDispatch]);
 
 
-
-  const handleSignout = (e) => {
-    e.preventDefault();
-    dispatch(clearUser());
-    Cookies.remove('userState');
-    Cookies.remove('token');
-    router.push('/auth');
-  };
-
   const Items = [
     { id: 1, text: 'Home', route: '/' },
     { id: 4, text: 'Articles', route: '/articles' },
@@ -76,12 +77,12 @@ const Navbar = () => {
         <ul className='hidden md:flex mr-5 py-4 font-[500]'>
           {admin ?
             (Items.map(item => (
-              <Link key={item.id} href={item.route} className={`py-5 px-6 hover:bg-slate-800 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(item)}>
+              <Link key={item.id} href={item.route} className={`py-5 px-6 hover:bg-slate-800 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(e, item)}>
                 {item.text}
               </Link>
             ))) :
             Items.filter(item => item.id !== 2 && item.route !== "admin").map((item) => (
-              <Link key={item.id} href={item.route} className={`py-5 px-6 hover:bg-slate-800 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(item)}>
+              <Link key={item.id} href={item.route} className={`py-5 px-6 hover:bg-slate-800 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(e, item)}>
                 {item.text}
               </Link>
             ))}
@@ -104,12 +105,12 @@ const Navbar = () => {
           <h1 className='w-full text-3xl font-bold text-[#0eef] m-4'>M<span className='text-slate-200'>E</span>LAN<span className='text-slate-200'>I</span>N A.</h1>
           {/* Mobile Items */}
           {admin ? (Items.map(item => (
-            <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(item)}>
+            <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(e, item)}>
               {item.text}
             </Link>
           ))) : (
             Items.filter(item => item.id !== 2 && item.route !== "admin").map((item) => (
-              <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(item)}>
+              <Link key={item.id} href={item.route} className={`block p-4 border-b rounded-lg md:hover:bg-blue-800 duration-100 cursor-pointer border-gray-600 ${router.pathname === item.route ? 'text-yellow-500' : ''}`} onClick={(e) => handleRouting(e, item)}>
                 {item.text}
               </Link>
             ))

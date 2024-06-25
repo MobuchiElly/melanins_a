@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Modal from '../modals/SuccessModal';
 import axiosInstance from '@/utils/axios';
 import axios from 'axios';
+import Image from 'next/image';
 
 const CreatePost = () => {
     const [title, setTitle] = useState('');
@@ -64,6 +65,9 @@ const CreatePost = () => {
                     <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
                         Choose an Image
                     </label>
+                    {
+                        image && <Image src={image ? URL.createObjectURL(image) : ""} width={200} height={100} alt="" className="rounded-md w-[48vw] lg:w-[28vw]  bg-gray-800 bg-opacity-10 h-[25vh] mb-2 lg:mb-0 mt-3"/>
+                    }
                     <input
                         type="file"
                         id="image"

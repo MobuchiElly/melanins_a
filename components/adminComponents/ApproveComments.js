@@ -20,8 +20,7 @@ const ApproveComment = () => {
             setError(false);
         } catch (err) {
             setLoading(false);
-            setError(err.response.request.statusText + ". " + "Try again");
-            console.error(err);
+            err.code === "ERR_BAD_REQUEST" ? setError("Authorised to access this") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please refresh your browser tab");
         }
     }
 
@@ -32,7 +31,8 @@ const ApproveComment = () => {
             setLoading(false);
             setAppError('');
         } catch (err) {
-            setAppError(err.response.request.statusText + ". " + "Try again");
+            setLoading(false);
+            err.code === "ERR_BAD_REQUEST" ? setAppError("Unauthorised to access this") : err.code === "ERR_NETWORK" ? setAppError("Please check your internet connection") : setAppError("Please refresh your browser tab");
             console.error(err);
         }
     }

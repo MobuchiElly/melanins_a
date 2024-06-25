@@ -75,14 +75,7 @@ const Articles = ({recentPosts}) => {
           <div className='hidden lg:block bg-white rounded-xl shadow-sm'>
             <h1 className="text-3xl font-bold mb-6 ml-3 p-2 text-center">Technology, Entertainment, Gossip<span className='hidden lg:inline'>, Sports</span></h1>
           </div>
-          <div className="lg:hidden w-full bg-white border shadow py-5 px-4 mb-6 rounded-xl">
-            {/* <div className="flex items-center p-1 pl-0 mb-3">
-              <h1 className="font-[600] text-xl mb-1">Search</h1>
-              <div className="">
-                <div className="ml-2 bg-pink-500 h-3 w-3 rounded-full inline-flex"></div>
-              </div>
-              <div className="border border-t-slate-400 border-b-slate-400 h-1 inline-flex w-full mt-1"></div>
-            </div> */}
+          <div className="lg:hidden w-full bg-white border shadow py-5 px-4 mb-6 rounded-xl lg:rounded-2xl">
             <div className="flex">
               <input
                 type="text"
@@ -223,8 +216,13 @@ export const getServerSideProps = async() => {
       }
     }
   } catch(err){
-    props: {
+    return {
+
+
+      
+      props: {
       recentPosts: []     
     }
+  }
   }
 }

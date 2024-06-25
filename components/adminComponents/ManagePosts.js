@@ -28,21 +28,28 @@ const ManagePosts = () => {
         setIsEditing(true);
     };
 
-    
     const handleSave = async() => {
         try{
-            const data = new FormData();
-            data.append("file", image);
-            data.append("upload_preset", "melaninDb");
-
+            let data = null;
+            if(image){
+                data = new FormData();
+                data.append("file", image);
+                data.append("upload_preset", "melaninDb");
+            }
             const { title, content} = selectedPost;
-            
             const selectedPostTags = selectedPost.tags.map(tag=>tag.trim()).filter(tag=>tag !== "");
             if(title || content || image || selectedPostTags){
-                const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
-                const {url} = await uploadRes.data;
+                let updatedPost = null;
+                if(image){
+                    const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
+                    const {url} = await uploadRes.data;
+                    console.log("Image is present")
+                    updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags, image:url});
+                } else {
+                    console.log("Image is absent");
+                    updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags});
+                }
                 
-                const updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags, image:url});
                 if(updatedPost){
                     setPosts(prevPosts => prevPosts.map(post => post._id===selectedPost._id ? selectedPost : post));
                     //  setAllTags(prevTags => [...prevTags, selectedPostTags])
@@ -63,6 +70,7 @@ const ManagePosts = () => {
     const handleCancel = () => {
         setIsEditing(false);
         setSelectedPost(null);
+        setImage(null);
     };
 
     const handleDelete = async(postId) => {
