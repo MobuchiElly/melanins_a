@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
+import FadeLoader from "react-spinners/FadeLoader";
 import axiosInstance from "@/utils/axios";
 import Tab from "../modals/Tab";
 
@@ -89,14 +89,14 @@ const ApproveComment = () => {
     
     
     return (
-        <div className="max-w-[80%] mx-auto bg-yellow-50 shadow-md rounded pb-8 my-4 min-h-80 overflow-x-visible">
+        <div className="max-w-[95%] lg:max-w-[80%] mx-auto bg-yellow-50 shadow-md rounded pb-8 my-4 min-h-80 overflow-x-visible">
             <div className="flex justify-around bg-gray-300">
                 <Tab tab="pending" activeTab={activeTab} onClick={handleTab} >Pending</Tab>
                 <Tab tab="approved" activeTab={activeTab} onClick={handleTab}>Approved</Tab>
             </div>
             {activeTab === "pending" && error && <p className="text-red-500 text-center">{error}</p>}
             {activeTab === "approved" && appError && <p className="text-red-500 text-center">{appError}</p>}
-            { loading ? <div className='pt-6 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div> : 
+            { loading ? <div className='pt-6 flex justify-center h-80'><FadeLoader color={"#52bfd9"} size={220}/></div> : 
                 <div className=" m-2 p-4 overflow-x-auto min-h-60">
                 {activeTab === "pending" && 
                 <table className="w-full min-h-[100%] table-auto">

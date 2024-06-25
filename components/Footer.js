@@ -90,6 +90,7 @@ const Footer = () => {
         </div>
         <div className="lg:w-1/2 mx-auto px-4 lg:mt-7 border-t border-yellow-700 rounded py-2">
           <p className="text-center">&copy; {new Date().getFullYear()} Melanin Amara. <span className='ml-2'>All Rights Reserved.</span></p>
+          <p className="text-center text-yellow-200 text-lg">Built by BuchiDev</p>
         </div>
       </div>
       {modalOpen && <SuccessModal setModalOpen={setModalOpen} title={"Successfull"} content={"Thank you for subscribing"}/>}

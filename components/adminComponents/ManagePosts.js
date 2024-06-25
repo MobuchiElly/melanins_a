@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
+import FadeLoader from 'react-spinners/FadeLoader';
 import axiosInstance from '@/utils/axios';
 import axios from 'axios';
 import Image from 'next/image';
@@ -121,8 +121,8 @@ const ManagePosts = () => {
     }, [posts]);
     
     return (
-        <div className="p-4 max-w-[80%] mx-auto overflow-x-auto">
-            { loading ? <div className='pt-6 flex justify-center h-80'><ClipLoader color={"#52bfd9"} size={220}/></div> : <div>
+        <div className="p-4 max-w-[95%] lg:max-w-[80%] mx-auto overflow-x-auto">
+            { loading ? <div className='pt-6 flex justify-center h-80'><FadeLoader color={"#52bfd9"} size={220}/></div> : <div>
             <div className="flex items-center mr-4">
                 <input
                     type="text"
