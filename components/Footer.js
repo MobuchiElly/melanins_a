@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaLinkedin, FaLinkedinIn, FaStaylinked, FaFacebook, FaFacebookSquare, FaInstagram, FaInstagramSquare, FaTwitter, FaTwitterSquare, FaCcVisa } from 'react-icons/fa';
 import axiosInstance from '@/utils/axios';
 import SuccessModal from "../components/modals/SuccessModal";
+import { FadeLoader } from 'react-spinners';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -19,6 +20,7 @@ const Footer = () => {
     }
     if(regex.test(email)){
       try{
+        setLoading(true);
         const res = await axiosInstance.post('/mail/', {email});
         if(res.data){
           setModalOpen(true);
@@ -26,8 +28,9 @@ const Footer = () => {
         setEmail('');
         setError('');
       } catch(err) {
-        console.log(err);
-        setError('Please provide a valid email and try again.');
+        console.log(err.code);
+        setLoading(false);
+        err.code === "ERR_BAD_REQUEST" ? setError("Unsuccessful. Please try again") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
       }
     } else {
       setError('Please provide a valid email address');
@@ -90,6 +93,11 @@ const Footer = () => {
         </div>
       </div>
       {modalOpen && <SuccessModal setModalOpen={setModalOpen} title={"Successfull"} content={"Thank you for subscribing"}/>}
+      {
+        loading && <div className="fixed inset-0 w-screen bg-black bg-opacity-15 z-50 flex justify-center items-center">
+        <FadeLoader className="mb-28"/>
+      </div>
+      }
     </footer>
   );
 };

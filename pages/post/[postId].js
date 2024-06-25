@@ -101,10 +101,10 @@ const Post = ({uid}) => {
             <div className='flex justify-center h-80 items-center pb-2'><FadeLoader size={300}/></div> 
             : 
             <div className="bg-white rounded-xl px-2 py-2">
-                <h1 className="text-6xl font-bold mb-2 lg:mb-6 text-center py-4 px-2">{post.title}</h1>
+                <h1 className="text-4xl font-bold mb-2 lg:mb-6 text-center py-4 px-2">{post.title}</h1>
                 <div className="md:max-w-[90%] lg:max-w-[80%] mx-auto">
                     <div className="flex  items-center justify-center gap-4 p-2">
-                    <Image src="https://images.unsplash.com/photo-1715584083775-30132089b98d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8" alt={`image for ${post.title}`} width={60} height={100} className="h-16 lg:h-14 rounded-full ml-8 md:ml-0 mr-2 md:mr-2"/>
+                    <Image src="https://images.unsplash.com/photo-1715584083775-30132089b98d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8" alt={`image for ${post.title}`} width={60} height={100} className="h-14 w-16 lg:h-14 rounded-full ml-8 md:ml-0 mr-2 md:mr-2 mt-1"/>
                         <p className="text-black  text-xl flex flex-wrap lg:flex-nowrap gap-2 lg:gap-4">
                             <span className="text-gray-600">by<span className="font-[700] ml-2">{post.author}</span></span>
                             <span className="">|</span>

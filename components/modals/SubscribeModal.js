@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axiosInstance from "@/utils/axios";
 import axios from "axios";
+import { FadeLoader } from "react-spinners";
 
 export const SubscribeModal = ({setopensubscribeModal}) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -16,12 +18,14 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
     }
     if(regex.test(email)){
       try{
+        setLoading(true);
         const res = await axios.post('http://localhost:5000/api/v1/mail/', {email});
         setEmail('');
         setError('');
       } catch(err) {
-        console.log(err);
-        err.code === "ERR_BAD_REQUEST" ? setError("Incorrect Login Credentialss") : error.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
+        console.log(err.code);
+        setLoading(false);
+        err.code === "ERR_BAD_REQUEST" ? setError("Unsuccessful. Please try again") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
       }
     } else {
       setError('Please provide a valid email address');
@@ -40,6 +44,11 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
             </label>
             <span className="p-1 text-red-500 font-semibold text-md italic min-h-8">{error && error}</span>
         </div>
+        {
+          loading && <div className="fixed inset-0 w-screen bg-black bg-opacity-15 z-50 flex justify-center items-center">
+          <FadeLoader className="mb-24"/>
+        </div>
+        }
     </div>
   )
 }

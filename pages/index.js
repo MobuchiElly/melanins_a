@@ -40,7 +40,7 @@ const Home = ({featuredPosts, recentPosts, err}) => {
         : 
         (featuredPosts && featuredPosts.length > 0) ? <div>
           <div className='bg-white rounded-xl shadow-sm'>
-            <h1 className="text-3xl lg:text-center lg:text-3xl font-bold mb-4 ml-3 p-2 ">Top Stories: Technology, Entertainment, Gossip<span className='hidden lg:inline'>, Sports</span></h1>
+            <h1 className="text-3xl text-center font-bold p-2">Welcome to Melanin Amaras Blog</h1>
           </div>
           {featuredPost1 && featuredPost1.length > 0 && <section className="bg-white p-6 rounded-xl shadow flex flex-col lg:flex-row my-6">
             <div className="h-auto shadow-slate-200 shadow rounded lg:mr-5 bg-transparent">

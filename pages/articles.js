@@ -73,7 +73,7 @@ const Articles = ({recentPosts}) => {
         :  
         (posts && posts.length) ? <div>
           <div className='bg-white rounded-xl shadow-sm'>
-            <h1 className="text-3xl font-bold mb-4 ml-3 p-2 text-center">Technology, Entertainment, Gossip<span className='hidden lg:inline'>, Sports</span></h1>
+            <h1 className="text-3xl font-bold mb-6 ml-3 p-2 text-center">Technology, Entertainment, Gossip<span className='hidden lg:inline'>, Sports</span></h1>
           </div>
           <div className="flex flex-col-reverse lg:flex-row-reverse">
             <section className="w-full lg:w-[120vw] lg:ml-4 mt-7 lg:mt-0">
