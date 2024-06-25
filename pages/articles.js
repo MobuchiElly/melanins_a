@@ -72,12 +72,31 @@ const Articles = ({recentPosts}) => {
         </SkeletonTheme> 
         :  
         (posts && posts.length) ? <div>
-          <div className='bg-white rounded-xl shadow-sm'>
+          <div className='hidden lg:block bg-white rounded-xl shadow-sm'>
             <h1 className="text-3xl font-bold mb-6 ml-3 p-2 text-center">Technology, Entertainment, Gossip<span className='hidden lg:inline'>, Sports</span></h1>
+          </div>
+          <div className="lg:hidden w-full bg-white border shadow py-10 px-7 mb-6 rounded-2xl">
+            {/* <div className="flex items-center p-1 pl-0 mb-3">
+              <h1 className="font-[600] text-xl mb-1">Search</h1>
+              <div className="">
+                <div className="ml-2 bg-pink-500 h-3 w-3 rounded-full inline-flex"></div>
+              </div>
+              <div className="border border-t-slate-400 border-b-slate-400 h-1 inline-flex w-full mt-1"></div>
+            </div> */}
+            <div className="flex">
+              <input
+                type="text"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+                placeholder="Search by title, tags or content"
+                className="w-full border-2 text-lg border-gray-300 rounded-lg px-3 py-3 h-12 ease-in-out delay-500"
+              />
+              <button onClick={fetchPosts} className="bg-pink-600 text-white font-mono text-lg px-4 ml-3 rounded-xl">Search</button>
+            </div>
           </div>
           <div className="flex flex-col-reverse lg:flex-row-reverse">
             <section className="w-full lg:w-[120vw] lg:ml-4 mt-7 lg:mt-0">
-              <div className="w-full bg-white border shadow py-10 px-7 mb-6 rounded-2xl">
+              <div className="hidden lg:block w-full bg-white border shadow py-10 px-7 mb-6 rounded-2xl">
                   <div className="flex items-center p-1 pl-0 mb-3">
                     <h1 className="font-[600] text-xl mb-1">Search</h1>
                     <div className="">
