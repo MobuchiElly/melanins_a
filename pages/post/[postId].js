@@ -12,7 +12,7 @@ const Post = ({uid, data}) => {
     const [liked, setLiked] = useState(data.isLiked);
     const [likes, setLikes] = useState(data.totalLikes);
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState(post);
+    const [comments, setComments] = useState(post.comments);
     const [loading, setLoading] = useState(false);
 
     const handleLike = async() => {
