@@ -14,26 +14,25 @@ const Post = ({uid, data}) => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState(post.comments);
     const [loading, setLoading] = useState(false);
-
+    
     const handleLike = async() => {
         if(uid){
             try{
                 if(liked){
                     const res = await axiosInstance.delete(`/blog/${postId}/likes`);
-                    const likes = res.data.post.likes.length;
+                    //const likes = res.data.post.likes.length;
                     if(res.status === 200){
-                        setLikes(likes);
+                        setLikes(prevLikes => prevLikes - 1);
                         setLiked(!liked);
                     }
-                    return;
                 } else if(!liked){
-                    const res = await axiosInstance.post(`/blog/${postId}/likes`);
-                    const likes = res.data.post.likes.length;
+                    const res = await axiosInstance.post(`/blog/${postId}/likes`, liked);
+                    const likes = res.data
+                    console.log(likes)
                     if(res.status === 201){
-                        setLikes(likes);
+                        setLikes(prevLikes => prevLikes + 1);
                         setLiked(!liked);
                     }
-                    return;
                 }
             } catch(err) {
                 console.log(err);
@@ -76,7 +75,14 @@ const Post = ({uid, data}) => {
         
     };
 
-
+    const formatContent = (content) => {
+        return content.split('\n').map((str, index) => (
+            <React.Fragment key={index}>
+                {str}
+                <br />
+            </React.Fragment>
+        ));
+    }
 
     return (
         <div className="w-screen max-w-[96%] lg:max-w-[85%] mx-auto pb-10 min-h-[80vh] px-1 lg:px-4 z-20">
@@ -100,7 +106,7 @@ const Post = ({uid, data}) => {
                             <Image src={post.image} width={200} height={200} className="w-full h-auto max-h-[60vh]"/>
                         </div>
                         <div className="bg-white py-4 rounded md:px-1 lg:px-6">
-                            <p  className="text-gray-950 text-xl overflow-auto break-words" style={{ wordWrap: 'break-word', maxWidth: '100%' }}>{post.content}</p>
+                            <p  className="text-gray-950 text-xl overflow-auto break-words" style={{ wordWrap: 'break-word', maxWidth: '100%' }}>{formatContent(post.content)}</p>
                         </div>
                         <div className="mt-4">
                             <button className="bg-gradient-to-tl from-cyan-500 to-pink-400 text-white px-6 py-2 rounded-lg mr-2 hover:shadow-md lg:group" onClick={handleLike}>

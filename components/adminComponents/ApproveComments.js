@@ -20,7 +20,7 @@ const ApproveComment = () => {
             setError(false);
         } catch (err) {
             setLoading(false);
-            err.code === "ERR_BAD_REQUEST" ? setError("Authorised to access this") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please refresh your browser tab");
+            err.code === "ERR_BAD_REQUEST" ? setError("Unuthorised to access this") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please refresh your browser tab");
         }
     }
 
