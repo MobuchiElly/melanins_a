@@ -155,9 +155,8 @@ export const getServerSideProps = async({query}) => {
     const data = await res.data.data || [];
     //fetch recent posts
     const startDate = new Date(new Date().getTime() - 60*24*60*60*1000);
-    const recentPostRes = await axiosInstance.get(`/blog?startDate=2024-05-08T07:43:54.257Z&select=title,content,author, image`);
+    const recentPostRes = await axiosInstance.get(`/blog?startDate=2024-05-08T07:43:54.257Z&select=title,content,author,image`);
     const recData = await recentPostRes.data.data || [];
-    
     return {
       props: {
         featuredPosts: data,
@@ -165,7 +164,7 @@ export const getServerSideProps = async({query}) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     return {
       props: {
         err: 'Oops there seems to be an issue. Please refresh your browser',
