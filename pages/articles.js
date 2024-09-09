@@ -216,10 +216,7 @@ export const getServerSideProps = async() => {
       }
     }
   } catch(err){
-    return {
-
-
-      
+    return {     
       props: {
       recentPosts: []     
     }
