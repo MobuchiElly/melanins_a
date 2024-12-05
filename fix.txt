@@ -1,8 +1,0 @@
-From [post].id it routes me to /post/admin when i click on navbar admin link instead of /admin 
-
-In articles page This error is shown when the internet is off. 
-Error: Your `getServerSideProps` function did not return an object. Did you forget to add a `return`?
-
-Cloudinary does not allow a user save an edited post unless the user selects an adds a new image from the folder. The issue is from the cloudinary setting as cludinary genearates a url for a saved image which cannot be edited. One can only send a new image which would require that cludinary generate a new url and this would work.
-
-In the home page when the image is unavailbale or not loaded the div needs to be present still

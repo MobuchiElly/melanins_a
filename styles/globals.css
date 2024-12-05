@@ -14,3 +14,17 @@ body{
   box-sizing: border-box;
 }
 
+.sliding-header {
+  animation: slide-left 3s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+

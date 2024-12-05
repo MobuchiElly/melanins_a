@@ -11,6 +11,8 @@ const Home = ({featuredPosts, recentPosts, err}) => {
   const [featuredPost1, setfeaturedPost1] = useState({})
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [animate, setAnimate] = useState(true);
+
   useEffect(() => {
     if(featuredPosts && Array.isArray(featuredPosts)) {
       setfeaturedPost1(featuredPosts.slice(0, 1));
@@ -20,6 +22,16 @@ const Home = ({featuredPosts, recentPosts, err}) => {
       setLoading(false);
     }
   }, [featuredPosts]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setAnimate(false);
+      setTimeout(() => setAnimate(true), 12000);
+    }, 12000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
 
   return (
     <div className="w-full lg:max-w-[90%] md:mx-auto px-3 pb-4 lg:pb-10 min-h-[80vh]">
@@ -40,7 +52,7 @@ const Home = ({featuredPosts, recentPosts, err}) => {
         : 
         (featuredPosts && featuredPosts.length > 0) ? <div>
           <div className='bg-white rounded-xl shadow-sm'>
-            <h1 className="text-3xl text-center font-bold p-2">Welcome to Melanin Amaras Blog</h1>
+            <h1 className={`text-3xl text-center font-[400] p-2 text-gray-900 ${animate ? 'sliding-header' : ''}`}>Welcome to Melanin Amaras Blog</h1>
           </div>
           {featuredPost1 && featuredPost1.length > 0 && <section className="bg-white p-6 rounded-xl shadow flex flex-col lg:flex-row my-6">
             <div className="h-auto shadow-slate-200 shadow rounded lg:mr-5 bg-slate-50 min-w-[40vw]">
