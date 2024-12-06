@@ -26,8 +26,8 @@ const Home = ({featuredPosts, recentPosts, err}) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setAnimate(false);
-      setTimeout(() => setAnimate(true), 120);
-    }, 120);
+      setTimeout(() => setAnimate(true), 12000);
+    }, 12000);
 
     return () => clearInterval(intervalId);
   }, []);
