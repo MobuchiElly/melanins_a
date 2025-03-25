@@ -22,8 +22,11 @@ const Post = ({uid, data}) => {
                     const res = await axiosInstance.delete(`/blog/${postId}/likes`);
                     //const likes = res.data.post.likes.length;
                     if(res.status === 200){
-                        setLikes(prevLikes => prevLikes - 1);
-                        setLiked(!liked);
+                        setLikes(prevLikes => {
+                            if (prevLikes > 0) return prevLikes - 1;
+                            if (prevLikes == 0) return 0
+                        });
+                        setLiked(false);
                     }
                 } else if(!liked){
                     const res = await axiosInstance.post(`/blog/${postId}/likes`, liked);
@@ -31,7 +34,7 @@ const Post = ({uid, data}) => {
                     console.log(likes)
                     if(res.status === 201){
                         setLikes(prevLikes => prevLikes + 1);
-                        setLiked(!liked);
+                        setLiked(true);
                     }
                 }
             } catch(err) {
