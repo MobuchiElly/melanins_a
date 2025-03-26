@@ -12,36 +12,28 @@ const Post = ({uid, data}) => {
     const [liked, setLiked] = useState(data.isLiked);
     const [likes, setLikes] = useState(data.totalLikes);
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState(post.comments);
+    const [comments, setComments] = useState(data.comments);
     const [loading, setLoading] = useState(false);
-    
+
+
     const handleLike = async() => {
-        if(uid){
-            try{
-                if(liked){
-                    const res = await axiosInstance.delete(`/blog/${postId}/likes`);
-                    //const likes = res.data.post.likes.length;
-                    if(res.status === 200){
-                        setLikes(prevLikes => {
-                            if (prevLikes > 0) return prevLikes - 1;
-                            if (prevLikes == 0) return 0
-                        });
-                        setLiked(false);
-                    }
-                } else if(!liked){
-                    const res = await axiosInstance.post(`/blog/${postId}/likes`, liked);
-                    const likes = res.data
-                    console.log(likes)
-                    if(res.status === 201){
-                        setLikes(prevLikes => prevLikes + 1);
-                        setLiked(true);
-                    }
-                }
-            } catch(err) {
-                console.log(err);
+        if (!uid) return router.push('/auth');
+        try{
+            if(liked){
+                setLikes(prevLikes => {
+                    if (prevLikes > 0) return prevLikes - 1;
+                    if (prevLikes == 0) return 0
+                });
+                setLiked(false);
+                const res = await axiosInstance.delete(`/blog/${postId}/likes`);
             }
-        } else {
-            router.push('/auth');
+            if(!liked){
+                setLikes(prevLikes => prevLikes + 1);
+                setLiked(true);
+                const res = await axiosInstance.post(`/blog/${postId}/likes`, liked);
+            }
+        } catch(err) {
+            console.log(err);
         }
     };
 
@@ -106,7 +98,7 @@ const Post = ({uid, data}) => {
                             </p>
                         </div>
                         <div className="w-full py-2 mt-2">
-                            <Image src={post.image} width={200} height={200} className="w-full h-auto max-h-[60vh]"/>
+                            <Image src={post.image} width={200} height={200} alt="blog post image" className="w-full h-auto max-h-[60vh]" />
                         </div>
                         <div className="bg-white py-4 rounded md:px-1 lg:px-6">
                             <p  className="text-gray-950 text-xl overflow-auto break-words" style={{ wordWrap: 'break-word', maxWidth: '100%' }}>{formatContent(post.content)}</p>
@@ -146,7 +138,10 @@ export const getServerSideProps = async({req, params}) => {
     try{
         const userState  = req?.cookies?.userState || null;
         const uid = JSON.parse(userState)?.uid || null;
-        const res = await axiosInstance.get('/blog/' + params.postId);
+        
+        let res = [];
+        if (!uid) res  = await axiosInstance.get('/blog/' + params.postId);
+        if(uid) res = await axiosInstance.get(`/blog/${params.postId}?uid=${uid}`);
         const data = await res.data;
         return {
         props: {
