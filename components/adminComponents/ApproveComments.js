@@ -15,7 +15,8 @@ const ApproveComment = () => {
     const fetchPendingComments = async () => {
         try {
             const res = await axiosInstance.get('/comments?approved=false');
-            setPendingComments(res.data);
+            setPendingComments(res.data.data);
+            console.log(res.data.data)
             setLoading(false);
             setError(false);
         } catch (err) {
@@ -27,7 +28,7 @@ const ApproveComment = () => {
     const fetchApprovedComments = async () => {
         try {
             const res = await axiosInstance.get('/comments?approved=true');
-            setApprovedComments(res.data);
+            setApprovedComments(res.data.data);
             setLoading(false);
             setAppError('');
         } catch (err) {
@@ -86,7 +87,6 @@ const ApproveComment = () => {
         console.log(err);
       }
     }
-    
     
     return (
         <div className="max-w-[95%] lg:max-w-[80%] mx-auto bg-yellow-50 shadow-md rounded pb-8 my-4 min-h-80 overflow-x-visible">

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axiosInstance from "@/utils/axios";
-import axios from "axios";
 import { FadeLoader } from "react-spinners";
 
 export const SubscribeModal = ({setopensubscribeModal}) => {
@@ -12,18 +11,16 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
     e.preventDefault();
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     if(!email){
-        console.log('email field cannot be empty')
         setError('Email field cannot be empty');
         return;
     }
     if(regex.test(email)){
       try{
         setLoading(true);
-        const res = await axios.post('http://localhost:5000/api/v1/mail/', {email});
+        const res = await axiosInstance.post('/mail', {email});
         setEmail('');
         setError('');
       } catch(err) {
-        console.log(err.code);
         setLoading(false);
         // err.code === "ERR_BAD_REQUEST" ? setError("Unsuccessful. Please try again") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
       }

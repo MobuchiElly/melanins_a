@@ -12,7 +12,6 @@ const Articles = ({recentPosts}) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [tags, setTags] = useState([]);
-  const [openSearch, setopenSearch] = useState(false);
 
   const handleTagCheck = (e) => {
     if(e.target.checked){
