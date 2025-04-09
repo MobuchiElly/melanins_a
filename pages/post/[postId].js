@@ -12,7 +12,7 @@ const Post = ({uid, data}) => {
     const [liked, setLiked] = useState(data.isLiked);
     const [likes, setLikes] = useState(data.totalLikes);
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState(data.data.comments || []);
+    const [comments, setComments] = useState(data?.data?.comments || []);
     const [loading, setLoading] = useState(false);
     const [commentSuccess, setCommentSuccess] = useState(false);
 
@@ -57,7 +57,7 @@ const Post = ({uid, data}) => {
                 setLoading(true);
                 if(res.status == 201){
                     setCommentSuccess(true);
-                    setComments([...comments, resdata.comment]);
+                    // setComments([...comments, resdata.comment]);
                     setComment("");
                 }
             } catch(err){
@@ -113,7 +113,7 @@ const Post = ({uid, data}) => {
                         <div className="w-full h-1 bg-black bg-opacity-80 my-4"></div>
                         <div className="mt-4">
                             <p className="text-lg text-slate-700 mt-2 pb-2 mb-5">
-                                {commentSuccess ? <span>Your response would be approved by an admin</span> : <span>Leave a reply</span>}
+                                {commentSuccess ? <span>Thank you. Your response would be approved by an admin</span> : <span>Leave a reply</span>}
                             </p>
                             <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} className="p-2 mr-2" placeholder="Add a comment" />
                             <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold text-lg shadow-md hover:bg-cyan-500 hover:shadow-lg" onClick={handleComment}>Comment</button>
