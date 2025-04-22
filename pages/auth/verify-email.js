@@ -66,7 +66,7 @@ const VerifyEmailPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="bg-white px-2 py-8 mx-2 md:mx-0 md:p-8 mb-6 md:mb-8 lg:mb-0 rounded-2xl shadow-xl max-w-md w-full text-center">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Email Verification</h1>
         <p className={`mb-4 text-lg ${error ? "text-red-600" : loading ?"text-blue-600" : "text-green-600"}`}>{status}</p>

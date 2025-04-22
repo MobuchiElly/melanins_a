@@ -15,7 +15,7 @@ const ResetPassword = () => {
     if(!router.isReady) return;
     if(!email || !vt) router.push("/");
   }, [email, vt, router]);
-console.log("email:", email);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
