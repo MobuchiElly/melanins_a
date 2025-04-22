@@ -4,7 +4,11 @@ import store from "@/redux/store";
 import { Provider } from "react-redux";
 import Script from "next/script";
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps, router }) {
+  const isAuthRoute = router.pathname.startsWith("/auth");
+
+  const getLayout = Component.getLayout || ((page) => isAuthRoute ? page : <Layout>{page}</Layout>)
+
   return (
     <>
       <Script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ENDPOINT}`}></Script>
@@ -17,9 +21,9 @@ export default function App({ Component, pageProps }) {
         `}
       </Script>
       <Provider store={store}>
-        <Layout>
+        {getLayout(
           <Component {...pageProps} />
-        </Layout>
+      )}
       </Provider>
     </>
   );

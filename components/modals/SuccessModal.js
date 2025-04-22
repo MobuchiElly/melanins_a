@@ -1,4 +1,3 @@
-
 const Modal = ({setModalOpen, title, content}) => {
    
     return (
