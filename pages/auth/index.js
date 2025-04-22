@@ -37,6 +37,12 @@ const Auth = () => {
     setShowPwField(true);
     clearMessages();
   };
+  const validateEmail = (email) => {
+    const regx =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!email.match(regx)) return false;
+    return true;
+  }
 
   const handleRegistration = async (e) => {
     e.preventDefault();
