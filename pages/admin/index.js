@@ -57,8 +57,9 @@ export default Index;
 export const getServerSideProps = ({req}) => {
   try{
     const res = req?.cookies;
-    const user = res && res.token && res.userState ?  JSON.parse(res.userState) : null;
-    if(!res.token && !user.status === "admin"){
+    const user = res && res.userState ?  JSON.parse(res.userState) : undefined;
+    console.log("user:", user);
+    if(!user.status || user.status !== "admin"){
       return {
         redirect: {
           destination: "/",
@@ -68,7 +69,7 @@ export const getServerSideProps = ({req}) => {
     }    
   } catch (err) {
     console.log(err);
-  }  
+  }
   return {
     props: {
 

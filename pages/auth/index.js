@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import axiosInstance from "@/utils/axios";
 import EmailVerificationSuccessModal from "@/components/modals/EmailVerificationSuccessModal";
 
-
 const Auth = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,7 +30,7 @@ const Auth = () => {
     setEmail("");
     setPassword("");
     setName("");
-  }
+  };
   const handleToggle = () => {
     setToggle(!toggle);
     setShowPwField(true);
@@ -39,10 +38,10 @@ const Auth = () => {
   };
   const validateEmail = (email) => {
     const regx =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!email.match(regx)) return false;
     return true;
-  }
+  };
 
   const handleRegistration = async (e) => {
     e.preventDefault();
@@ -70,16 +69,18 @@ const Auth = () => {
       const response = await axiosInstance.post("/auth/register", {
         name,
         email,
-        password
+        password,
       });
       if (response.status === 201) {
         setModalContent(
-        <>
-          <h3 className="text-lg font-semibold mb-4">Account Creation Successful</h3>
-          <p className="text-sm">
-            A verification link has been sent to your email address.
-          </p>
-        </>
+          <>
+            <h3 className="text-lg font-semibold mb-4">
+              Account Creation Successful
+            </h3>
+            <p className="text-sm">
+              A verification link has been sent to your email address.
+            </p>
+          </>
         );
         clearInput();
         setShowSuccessModal(true);
@@ -99,15 +100,15 @@ const Auth = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     clearMessages();
-    if(!email) {
+    if (!email) {
       setError("Please provide email");
       return;
     }
-    if(!password){
+    if (!password) {
       setError("Input your password");
       return;
     }
-    if (!validateEmail(email)){
+    if (!validateEmail(email)) {
       setError("Email is invalid. Enter a vali email");
       return;
     }
@@ -118,18 +119,12 @@ const Auth = () => {
         password,
       });
       const data = await response.data;
-      if (response.status == 200){
+      if (response.status == 200) {
         clearInput();
         if (!data?.user) return;
         const { name, email, uid } = data.user;
         const expiryDate = new Date();
         expiryDate.setDate(expiryDate.getDate() + 1);
-
-        Cookies.set("token", data.token, {
-          expires: expiryDate,
-          secure: true,
-          sameSite: "strict",
-        });
 
         Cookies.set("userState", JSON.stringify(data.user), {
           expires: expiryDate,
@@ -137,7 +132,7 @@ const Auth = () => {
           sameSite: "strict",
         });
         dispatch(setUser({ name, email, uid }));
-        router.back() || router.push("/");        
+        router.back() || router.push("/");
       }
     } catch (error) {
       setSuccessMessage("");
@@ -154,40 +149,51 @@ const Auth = () => {
     }
   };
 
-  const handleForgotPassword = async(e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
     clearMessages();
-    if(!email){
+    if (!email) {
       setError("Please Enter Your Email");
-      return; 
+      return;
     }
-    if(!validateEmail(email)){
+    if (!validateEmail(email)) {
       setError("Invalid Email. Enter a valid email");
       return;
     }
     setAuthLoading(true);
     try {
-      const res = await axiosInstance.post("/auth/forgot-password", {email});
+      const res = await axiosInstance.post("/auth/forgot-password", { email });
       if (res.status === 201) {
         clearInput();
-        setModalContent(        
-        <>
-          <h3 className="text-lg font-semibold mb-4">Password Reset Link Sent</h3>
-          <p className="text-sm">
-          A password reset link has been sent to your registered email address.
-          </p>
-        </>)
+        setModalContent(
+          <>
+            <h3 className="text-lg font-semibold mb-4">
+              Password Reset Link Sent
+            </h3>
+            <p className="text-sm">
+              A password reset link has been sent to your registered email
+              address.
+            </p>
+          </>
+        );
         setShowSuccessModal(true);
       }
-    } catch(err){
-      setError(err.response?.data?.error || "Unable to handle your request at the moment");
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+          "Unable to handle your request at the moment"
+      );
     } finally {
       setAuthLoading(false);
     }
-  }
+  };
 
   const message = successMessage || error;
-  const messageStyle = successMessage ?"text-green-700" : error ? "text-red-600" : "";
+  const messageStyle = successMessage
+    ? "text-green-700"
+    : error
+    ? "text-red-600"
+    : "";
 
   return (
     <div className="flex justify-center items-center min-h-screen text-white px-6 relative">
@@ -197,13 +203,19 @@ const Auth = () => {
         </div>
       )}
 
-      <div
-        className="bg-gradient-to-tr from-gray-900 to-cyan-500 px-8 rounded-tl-2xl rounded-br-3xl shadow-md flex flex-col justify-center h-auto py-[8vh]"
-      >
+      <div className="bg-gradient-to-tr from-gray-900 to-cyan-500 px-8 rounded-tl-2xl rounded-br-3xl shadow-md flex flex-col justify-center h-auto py-[8vh]">
         <h2 className="text-2xl mb-4 mt-1 font-semibold">
           {showPwField ? (toggle ? "Register" : "Login") : "Forgot Password"}
         </h2>
-        <form onSubmit={showPwField ? (toggle ? handleRegistration : handleLogin) : handleForgotPassword}>
+        <form
+          onSubmit={
+            showPwField
+              ? toggle
+                ? handleRegistration
+                : handleLogin
+              : handleForgotPassword
+          }
+        >
           {toggle && (
             <input
               type="text"
@@ -228,34 +240,41 @@ const Auth = () => {
             }}
             className="w-full mb-4 p-2 border rounded text-black text-lg bg-white"
           />
-          {showPwField && <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => {
-              clearMessages();
-              setPassword(e.target.value);
-            }}
-            className="w-full mb-4 p-2 border rounded text-black text-lg bg-white"
-          />}
-          {showPwField ?
-            (<button
+          {showPwField && (
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                clearMessages();
+                setPassword(e.target.value);
+              }}
+              className="w-full mb-4 p-2 border rounded text-black text-lg bg-white"
+            />
+          )}
+          {showPwField ? (
+            <button
               type="submit"
               className="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-2 rounded font-mono text-xl"
             >
               {toggle ? "Register" : "Login"}
-            </button>)
-          :
-            (<button
+            </button>
+          ) : (
+            <button
               type="submit"
               className="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-2 rounded font-mono text-xl"
             >
               Send
-            </button>)}
+            </button>
+          )}
           {!toggle && (
             <div className="flex justify-end mb-1 text-sm text-blue-200">
-              <button type="button" onClick={() => setShowPwField(false)}className="hover:underline">
+              <button
+                type="button"
+                onClick={() => setShowPwField(false)}
+                className="hover:underline"
+              >
                 Forgot Password?
               </button>
             </div>
@@ -280,11 +299,14 @@ const Auth = () => {
           </div>
         )}
       </div>
-      <EmailVerificationSuccessModal show={showSuccessModal} onClose={() => {
-        setShowSuccessModal(false);
-        setModalContent("");
-      }}>
-      {ModalContent}
+      <EmailVerificationSuccessModal
+        show={showSuccessModal}
+        onClose={() => {
+          setShowSuccessModal(false);
+          setModalContent("");
+        }}
+      >
+        {ModalContent}
       </EmailVerificationSuccessModal>
     </div>
   );
@@ -295,10 +317,7 @@ export default Auth;
 export const getServerSideProps = ({ req }) => {
   try {
     const res = req?.cookies;
-    const user =
-      res && res.token && res.userState
-        ? JSON.parse(res.userState)
-        : null;
+    const user = res && res.userState ? JSON.parse(res.userState) : null;
     if (user) {
       if (user.status === "admin") {
         return {
