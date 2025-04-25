@@ -135,7 +135,7 @@ const Auth = () => {
         router.back() || router.push("/");
       }
     } catch (error) {
-      setSuccessMessage(""); console.log("e:", error)
+      setSuccessMessage("");
       if (error.response?.status !== 503) {
         setError(
           error.response?.data?.error ||
@@ -336,7 +336,7 @@ export const getServerSideProps = ({ req }) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
   return {
     props: {},
