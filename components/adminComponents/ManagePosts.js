@@ -43,10 +43,8 @@ const ManagePosts = () => {
                 if(image){
                     const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
                     const {url} = await uploadRes.data;
-                    console.log("Image is present")
                     updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags, image:url});
                 } else {
-                    console.log("Image is absent");
                     updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags});
                 }
                 

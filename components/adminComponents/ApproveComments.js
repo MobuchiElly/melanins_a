@@ -16,7 +16,6 @@ const ApproveComment = () => {
         try {
             const res = await axiosInstance.get('/comments?approved=false');
             setPendingComments(res.data.data);
-            console.log(res.data.data)
             setLoading(false);
             setError(false);
         } catch (err) {

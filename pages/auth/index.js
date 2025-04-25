@@ -111,7 +111,7 @@ const Auth = () => {
     if (!validateEmail(email)) {
       setError("Email is invalid. Enter a vali email");
       return;
-    }
+    };
     setAuthLoading(true);
     try {
       const response = await axiosInstance.post("/auth/login", {
@@ -135,7 +135,7 @@ const Auth = () => {
         router.back() || router.push("/");
       }
     } catch (error) {
-      setSuccessMessage("");
+      setSuccessMessage(""); console.log("e:", error)
       if (error.response?.status !== 503) {
         setError(
           error.response?.data?.error ||
