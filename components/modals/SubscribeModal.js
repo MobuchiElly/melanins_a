@@ -6,26 +6,36 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
+  const handleSubmit = async() => {
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
     if(!email){
-        setError('Email field cannot be empty');
+        setError('Please provide Email');
         return;
     }
-    if(regex.test(email)){
-      try{
-        setLoading(true);
-        const res = await axiosInstance.post('/mail', {email});
+    const userEmail = email.trim();
+    if(!regex.test(userEmail)){
+      setError("Please provide a valid email address");
+      return;
+    }
+    setLoading(true);
+    try{
+      const res = await axiosInstance.post('/subscribe', {email:userEmail});
+      if (res.status == 201){
         setEmail('');
         setError('');
-      } catch(err) {
-        setLoading(false);
-        // err.code === "ERR_BAD_REQUEST" ? setError("Unsuccessful. Please try again") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please try again");
+        setSuccessMessage("Thank you for subscribing!!");
+        setTimeout(() => {
+          setopensubscribeModal(false);
+        }, 2500);
       }
-    } else {
-      setError('Please provide a valid email address');
+    } catch(err) {
+      console.error("err:", err);
+      setError("err:", err?.response?.data || "An error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,10 +46,14 @@ export const SubscribeModal = ({setopensubscribeModal}) => {
             <h1 className='text-xl font-[500] mt-3 lg:0'>Never miss out on the latest gist and gossip</h1>
             <label className='mt-8'>
                 <span className='py-2 text-lg pl-2 lg:0'>Email Address:</span>
-                <input type="email" placeholder="melanin@gmail.com" onChange={(e) => {setError('');setEmail(e.target.value)}} className='w-full border shadow-md p-3 rounded-lg my-1'/>
+                <input type="email" value={email} placeholder="melanin@gmail.com" onChange={(e) => {
+                  setError('');
+                  setEmail(e.target.value)
+                  }} className='w-full border shadow-md p-3 rounded-lg my-1'/>
                 <button className='border shadow bg-green-600 text-white px-6 py-4 rounded-xl mt-4' onClick={handleSubmit}>Subscribe</button>
             </label>
-            <span className="p-1 text-red-500 font-semibold text-md italic min-h-8">{error && error}</span>
+            <span className="p-1 text-red-500 text-lg min-h-8">{!successMessage &&(error && error)}</span>
+            <span className="p-1 text-green-600 font-semibold text-2xl text-center min-h-8 animate-bounce">{successMessage && successMessage}</span>
         </div>
         {
           loading && <div className="fixed inset-0 w-screen bg-black bg-opacity-15 z-50 flex justify-center items-center">
