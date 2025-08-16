@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 import axiosInstance from "@/utils/axios";
 import Tab from "../modals/Tab";
+import Cookies from "js-cookie";
 
 const ApproveComment = () => {
     const [pendingComments, setPendingComments] = useState([]);
@@ -12,22 +13,32 @@ const ApproveComment = () => {
     const [loading, setLoading] = useState(true);
     
 
-    const fetchPendingComments = async () => {
+    const fetchPendingComments = async (token) => {
         try {
-            const res = await axiosInstance.get('/comments?approved=false');
-            setPendingComments(res.data.data);
+            const res = await axiosInstance.get('/comments?approved=false', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setPendingComments(res.data.data.comments);
             setLoading(false);
             setError(false);
         } catch (err) {
+            console.log("err:", err);
             setLoading(false);
-            err.code === "ERR_BAD_REQUEST" ? setError("Unuthorised to access this") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please refresh your browser tab");
+            err.code === "ERR_BAD_REQUEST" ? setError(err.response?.data?.error || "Unuthorised to access this") : err.code === "ERR_NETWORK" ? setError("Please check your internet connection") : setError("Please refresh your browser tab");
         }
     }
 
-    const fetchApprovedComments = async () => {
+    const fetchApprovedComments = async (token) => {
         try {
-            const res = await axiosInstance.get('/comments?approved=true');
-            setApprovedComments(res.data.data);
+            const res = await axiosInstance.get('/comments?approved=true', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setApprovedComments(res.data.data.comments);
+            console.log("approved comments:", res.data.data);
             setLoading(false);
             setAppError('');
         } catch (err) {
@@ -38,8 +49,9 @@ const ApproveComment = () => {
     }
 
     useEffect(() => {
-        fetchPendingComments();
-        fetchApprovedComments();
+        const token = Cookies.get("authToken") ? JSON.parse(Cookies.get("authToken")) : null;
+        fetchPendingComments(token);
+        fetchApprovedComments(token);
     }, [])
     
     useEffect(() => {
@@ -57,28 +69,43 @@ const ApproveComment = () => {
     }
     const handleEdit = async(id, command) => {
         try{
-           if(command === "approve"){
-             const res = await axiosInstance.put('/comments/' + id + '/approvecomment', {
+            const token = Cookies.get("authToken") ? JSON.parse(Cookies.get("authToken")) : null;
+            if(command === "approve"){
+                const res = await axiosInstance.patch('/comments/' + id + '/approvecomment', {
                 approved:"true",
-             });         
-             setPendingComments(prevComments => prevComments.filter(comment => comment._id !== id));
-             setApprovedComments([...approvedComments, res.data]);
-           }
-           if(command === "dismiss"){
-             const res = await axiosInstance.put('/comments/' + id + '/approvecomment', {
+                }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+                });         
+                console.log("res:", res.data);
+                setPendingComments(prevComments => prevComments.filter(comment => comment._id !== id));
+                setApprovedComments([...approvedComments, res.data.data.comment]);
+            }
+            if(command === "dismiss"){
+                const res = await axiosInstance.patch('/comments/' + id + '/approvecomment', {
                 approved:"false",
-             });
-             setApprovedComments(prevComments => prevComments.filter(comment => comment._id !== id));
-             setPendingComments([...pendingComments, res.data]);
-           }
+                }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+                });
+                setApprovedComments(prevComments => prevComments.filter(comment => comment._id !== id));
+                setPendingComments([...pendingComments, res.data.data.comment]);
+            }
         } catch(err){
-           setError(err);
+           setError(err.response?.data?.error || "error processing your request");
            console.log(err);
         }
     }
     const handleDelete = async(id) => {
       try{
-        const res = await axiosInstance.delete('/comments/' + id);
+        const token = Cookies.get("authToken") ? JSON.parse(Cookies.get("authToken")) : null;
+        const res = await axiosInstance.delete('/comments/' + id, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         setPendingComments(prevComments => prevComments.filter(comment => comment._id !== id));
         setApprovedComments(prevComments => prevComments.filter(comment => comment._id !== id));
       } catch(err){
@@ -109,7 +136,7 @@ const ApproveComment = () => {
                     </thead>
                     <tbody>
                         {pendingComments ? pendingComments.map((comment, index) => (
-                            <tr key={comment._id}>
+                            <tr key={`pending-${comment._id}`}>
                                 <td className="border px-4 py-2">{comment.writer}</td>
                                 <td className="border px-4 py-2">{comment.content}</td>
                                 <td className="border px-4 py-2">{comment?.blogPostId?.title}</td>
@@ -132,7 +159,7 @@ const ApproveComment = () => {
                     </thead>
                     <tbody>
                     {approvedComments && approvedComments.map((comment, index) => (
-                        <tr key={comment._id}>
+                        <tr key={`approved-${comment._id}`}>
                             <td className="border px-4 py-2">{comment.writer}</td>
                             <td className="border px-4 py-2">{comment.content}</td>
                             <td className="border px-4 py-2">{comment?.blogPostId?.title}</td>

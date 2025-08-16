@@ -42,7 +42,7 @@ const Index = () => {
              )
               : 
               tab.approve ? (
-                  <ApproveComment/>
+                <ApproveComment/>
               )
                : ''
           }
@@ -58,7 +58,6 @@ export const getServerSideProps = ({req}) => {
   try{
     const res = req?.cookies;
     const user = res && res.userState ?  JSON.parse(res.userState) : undefined;
-    console.log("user:", user);
     if(!user.status || user.status !== "admin"){
       return {
         redirect: {
@@ -66,7 +65,7 @@ export const getServerSideProps = ({req}) => {
           permanent: false,
         }
       }
-    }    
+    }
   } catch (err) {
     console.log(err);
   }

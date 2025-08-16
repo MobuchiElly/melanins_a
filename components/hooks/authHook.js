@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { setUser } from '@/redux/user/userSlice';
 
 const useAuthHook = () => {
-    const userCookie = Cookies.get("userState");
+    const userCookie = Cookies.get("user");
     const userState = userCookie ? JSON.parse(userCookie) : null;
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
@@ -13,9 +13,9 @@ const useAuthHook = () => {
     userState && JSON.stringify(userState) !== JSON.stringify(user) ? dispatch(setUser(userState)) : null;
     }, [dispatch, user, userState])
     
-     
+     console.log("user status(authhook):", user)
     const isAuthenticated = !!user;
-    const admin = user && user.status==="admin";
+    const admin = user && user.status === "admin";
     return { user, isAuthenticated, admin, dispatch };
 }
 

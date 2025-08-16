@@ -16,7 +16,6 @@ const Articles = ({recentPosts}) => {
   const handleTagCheck = (e) => {
     if(e.target.checked){
       if(!selectedTags.includes(e.target.value)){
-        
         setSelectedTags((prevTags) => [...prevTags, e.target.value]);
       }
     } else {
@@ -26,12 +25,12 @@ const Articles = ({recentPosts}) => {
 
   const fetchPosts = async() => {
     try{
-      const res = await axiosInstance.get(`/blog?search=${searchTerm}&tags=${selectedTags.join(", ")}`);
-      const data = await res.data;
-      if(data.data && data.length !== 0){
+      const postsRes = await axiosInstance.get(`/blog?search=${searchTerm}&tags=${selectedTags.join(", ")}`);
+      const allPosts = postsRes.data.data.posts;
+      if(allPosts && allPosts.length !== 0){
         setLoading(false);
       }
-      !(searchTerm && selectedTags) ? setPosts(data.data.slice(0,6)) : setPosts(data.data);
+      !(searchTerm && selectedTags) ? setPosts(allPosts.slice(0,6)) : setPosts(allPosts);
     } catch(err){
       setLoading(false);
       setError(err);
@@ -181,7 +180,9 @@ const Articles = ({recentPosts}) => {
           <div className="lg:flex justify-evenly gap-3 h-full lg:py-4 lg:px-6">
                     {recentPosts && recentPosts.slice(0,1).map((article) => (
                       <Link href={'post/' + article._id} key={article._id} className="bg-gray-400 w-full relative rounded hover:shadow-2xl group">
-                        <Image src={article.image} alt="recent" height={200} width={200} className="w-full h-full rounded-lg"/>
+                        <Image 
+                        src={article.image}
+                        alt="recent" height={200} width={200} className="w-full h-full rounded-lg"/>
                         <span className="absolute bottom-0 left-0 right-0 lg:top-44 text-center  text-white w-full text-wrap px-6 italic cursor-pointer delay-100 min-h-16 bg-black bg-opacity-20">
                           <h1 className="font-semibold text-xl lg:text-3xl cursor-pointer hover:text-gray-50 hover:underline hover:underline-offset-1 hover:scale-105 p-2 delay-75">{article.title}</h1>
                           <p className="text-xl cursor-pointer hover:text-gray-50 hover:scale-105 p-1 delay-75 hidden lg:block">{article.content.slice(0, 110)}</p>
@@ -208,13 +209,15 @@ export const getServerSideProps = async() => {
     //fetch recent posts
     const startDate = new Date(new Date().getTime() - 60*24*60*60*1000);
     const recentPostRes = await axiosInstance.get(`/blog?startDate=2024-05-08T07:43:54.257Z&select=title,content,author,image`);
-    const recData = await recentPostRes.data.data || [];
+    const recData = await recentPostRes.data.data;
+
     return {
       props: {
-        recentPosts: recData,
+        recentPosts: recData.posts || [],
       }
     }
   } catch(err){
+    console.log("err:", err)
     return {     
       props: {
       recentPosts: []     

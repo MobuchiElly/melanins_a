@@ -3,6 +3,8 @@ import FadeLoader from 'react-spinners/FadeLoader';
 import axiosInstance from '@/utils/axios';
 import axios from 'axios';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
+import { current } from '@reduxjs/toolkit';
 
 const ManagePosts = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -17,64 +19,80 @@ const ManagePosts = () => {
     const [allTags, setAllTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState(new Set());
     const [strTags, setStrTags] = useState('');
-    const [image, setImage] = useState(null);
+    const [newImage, setNewImage] = useState(null);
     const handleSearch = () => {
         fetchPosts();
         setCurrentPage(1);
     };
-
+    
     const handleEdit = async(post) => {
         setSelectedPost(post);
         setIsEditing(true);
     };
 
     const handleSave = async() => {
+        const { title, content, featured, image:selectedPostImage, tags } = selectedPost;
+        let data = null;
         try{
-            let data = null;
-            if(image){
+            if(newImage){
                 data = new FormData();
-                data.append("file", image);
+                data.append("file", newImage);
                 data.append("upload_preset", "melaninDb");
             }
-            const { title, content} = selectedPost;
-            const selectedPostTags = selectedPost.tags.map(tag=>tag.trim()).filter(tag=>tag !== "");
-            if(title || content || image || selectedPostTags){
-                let updatedPost = null;
-                if(image){
+//            console.log("selectedPost:", selectedPost);          
+            const selectedPostTags = (selectedPost.tags || []).map(tag=>tag.trim()).filter(tag=>tag !== "");
+            if(title.trim() || content.trim() || selectedPostTags.length > 0){
+                const token = Cookies.get("authToken") ? JSON.parse(Cookies.get("authToken")) : null;
+                const updatePayload = {
+                    title,
+                    content, 
+                    featured, 
+                    image:selectedPostImage,
+                    tags:selectedPostTags
+                };
+                if(newImage){
                     const uploadRes = await axios.post(process.env.NEXT_PUBLIC_CLOUDINARY_ENDPOINT, data);
                     const {url} = await uploadRes.data;
-                    updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags, image:url});
-                } else {
-                    updatedPost = await axiosInstance.patch('/blog/' + selectedPost._id, {...selectedPost, tags:selectedPostTags});
-                }
+                    updatePayload.image = url;
+                };
+                setLoading(true);
+                const updatedPostRes = await axiosInstance.patch(`/blog/${selectedPost._id}`, updatePayload, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 
-                if(updatedPost){
-                    setPosts(prevPosts => prevPosts.map(post => post._id===selectedPost._id ? selectedPost : post));
+                if(updatedPostRes.status === 200){
+                    setPosts(prevPosts => prevPosts.map(post => post._id === selectedPost._id ? updatedPostRes.data.data.updatedPost : post));
+                    setIsEditing(false);
+                    setSelectedPost(null);
+                    setNewImage(null);
                     //  setAllTags(prevTags => [...prevTags, selectedPostTags])
                 }
-                setIsEditing(false);
-                setSelectedPost(null);
-                setImage(null);
-            }else{
-                setError('Title and Content are required');
-                console.error('Title and Content are required');
             }
         } catch(err){
             console.error(err.message);
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleCancel = () => {
         setIsEditing(false);
         setSelectedPost(null);
-        setImage(null);
+        setNewImage(null);
     };
 
     const handleDelete = async(postId) => {
         try{
-            const delPost = await axiosInstance.delete('/blog/' + postId);
-            setPosts((prevPost) => posts.filter(post => post._id !== postId));
+            const token = Cookies.get("authToken") ? JSON.parse(Cookies.get("authToken")) : null;
+            const delPost = await axiosInstance.delete('/blog/' + postId, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setPosts((prevPosts) => prevPosts.filter(post => post._id !== postId));
             setLoading(false);
         } catch(err){
             setError(err);
@@ -104,8 +122,9 @@ const ManagePosts = () => {
         }
         try {
             const res = await axiosInstance.get(`/blog?page=${currentPage}&search=${searchTerm}&tags=${strTags}`);
-            const { data, totalPages } = res.data;
-            setPosts(data);
+            const { posts, totalPages } = res.data.data;
+            console.log("toatlPages:", res.data);
+            setPosts(posts);
             setTotalPages(totalPages);
             setLoading(false);
         } catch (err) {
@@ -115,7 +134,6 @@ const ManagePosts = () => {
     };
     useEffect(() => {
         fetchPosts();
-        
     }, [currentPage, searchTerm, selectedTags]);
     useEffect(() => {
         posts.forEach(post => {if(post.tags && post.tags.length){ 
@@ -128,7 +146,11 @@ const ManagePosts = () => {
     
     return (
         <div className="p-4 max-w-[95%] lg:max-w-[80%] mx-auto overflow-x-auto">
-            { loading ? <div className='pt-6 flex justify-center h-80'><FadeLoader color={"#52bfd9"} size={220}/></div> : <div>
+            { 
+                loading && 
+                <div className='pt-6 flex justify-center h-80'><FadeLoader color={"#52bfd9"} size={220}/>
+                </div>
+            }
             <div className="flex items-center mr-4">
                 <input
                     type="text"
@@ -215,15 +237,14 @@ const ManagePosts = () => {
                     Next
                 </button>
             </div>
-            </div> } 
             {isEditing && selectedPost && (
             <div className="fixed inset-0 w-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div className='bg-white p-4 rounded shadow-md'>
                     <h4 className='text-lg mb-4 font-bold'>Edit Post</h4>
                     <div className='flex flex-col  lg:flex-row  items-start lg:items-end mb-1 min-h-[20vh] border border-gray-300 rounded px-2 pt-1'>
-                        <Image src={image ? URL.createObjectURL(image) : selectedPost.image} width={100} height={200} alt="" className="mr-2 rounded-md w-[48vw] lg:w-[28vw]  bg-gray-800 bg-opacity-10 h-[20vh] mb-2 lg:mb-0"/>
+                        <Image src={newImage ? URL.createObjectURL(newImage) : selectedPost?.image} width={100} height={200} alt="" className="mr-2 rounded-md w-[48vw] lg:w-[28vw]  bg-gray-800 bg-opacity-10 h-[20vh] mb-2 lg:mb-0"/>
                         <div className='mb-1'>
-                            <input type="file" onChange={(e) => setImage(e.target.files[0])}/>
+                            <input type="file" onChange={(e) => setNewImage(e.target.files[0])}/>
                         </div>
                     </div>
                     <input

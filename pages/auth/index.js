@@ -39,7 +39,7 @@ const Auth = () => {
   const validateEmail = (email) => {
     const regx =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!email.match(regx)) return false;
+    if (!email.trim().toLowerCase().match(regx)) return false;
     return true;
   };
 
@@ -118,7 +118,7 @@ const Auth = () => {
         email,
         password,
       });
-      const data = await response.data;
+      const data = response.data.data;
       if (response.status == 200) {
         clearInput();
         if (!data?.user) return;
@@ -126,16 +126,25 @@ const Auth = () => {
         const expiryDate = new Date();
         expiryDate.setDate(expiryDate.getDate() + 1);
 
-        Cookies.set("userState", JSON.stringify(data.user), {
+        Cookies.set("authToken",
+          JSON.stringify(data.token),
+          {
+            expires: expiryDate,
+            secure: true,
+            sameSite: "strict",
+        });
+        Cookies.set("user", JSON.stringify(data.user), {
           expires: expiryDate,
           secure: true,
           sameSite: "strict",
         });
+        
         dispatch(setUser({ name, email, uid }));
         router.back() || router.push("/");
       }
     } catch (error) {
       setSuccessMessage("");
+      console.log("error:", error);
       if (error.response?.status !== 503) {
         setError(
           error.response?.data?.error ||

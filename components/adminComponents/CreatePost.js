@@ -3,6 +3,7 @@ import Modal from '../modals/SuccessModal';
 import axiosInstance from '@/utils/axios';
 import axios from 'axios';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
 
 const CreatePost = () => {
     const [title, setTitle] = useState('');
@@ -21,6 +22,7 @@ const CreatePost = () => {
         data.append("file", image);
         data.append("upload_preset", "melaninDb");
         try {
+            const token = Cookies.get("authToken") ? JSON.parse(Cookies.get("authToken")) : null;
             if (tags.split(',').length < 2) {
                 setError('Please add at least two tags');
                 return;
@@ -38,8 +40,12 @@ const CreatePost = () => {
                     tags: trimmedTags,
                     featured,
                     image: url,
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 });
-                if (res.data && res.data.post.title && res.data.post.image) {
+                if (res.status === 201) {
                     setTitle('');
                     setContent('');
                     setAuthor('');
@@ -49,7 +55,6 @@ const CreatePost = () => {
                     setModalOpen(false);
                 }
             }
-            
         } catch (err) {
             setError(err);
             console.error(err);

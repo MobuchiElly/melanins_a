@@ -27,7 +27,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axiosInstance.post("/auth/reset-password", { email, password, pvt: vt });
+      const response = await axiosInstance.post("/auth/reset-password", { email, password, passwordResetToken: vt });
       if (response.status === 201){
       setSuccess("Password reset successful. Redirecting to login...");
       setTimeout(() => router.push("/auth"), 3000);
