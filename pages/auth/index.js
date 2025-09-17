@@ -143,6 +143,7 @@ const Auth = () => {
         router.back() || router.push("/");
       }
     } catch (error) {
+      setAuthLoading(false);
       setSuccessMessage("");
       console.log("error:", error);
       if (error.response?.status !== 503) {
@@ -153,8 +154,6 @@ const Auth = () => {
         return;
       }
       setError("Check your internet connection");
-    } finally {
-      setAuthLoading(false);
     }
   };
 

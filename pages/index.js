@@ -161,17 +161,16 @@ const Home = ({featuredPosts, recentPosts, err}) => {
 export default Home;
 
 export const getServerSideProps = async({query}) => {
- // console.log("data:", process.env.NEXT_PUBLIC_ENDPOINT_URL_LOCAL)
   try {
     //Fetch featured posts
-    const featuredPostsRes = await axiosInstance.get("/blog?featured=true");
+    const featuredPostsRes = await axiosInstance.get("/posts?featured=true");
     const featuredPosts = featuredPostsRes.data.data.posts || [];
 
     //fetch recent posts
     const startDate = new Date(new Date().getTime() - 60*24*60*60*1000);
-    const recentPostRes = await axiosInstance.get(`/blog?startDate=2024-05-08T07:43:54.257Z&select=title,content,author,image`);
+    const recentPostRes = await axiosInstance.get(`/posts?startDate=2024-05-08T07:43:54.257Z&select=title,content,author,image`);
     const recentPosts = await recentPostRes.data.data.posts || [];
-    console.log("response body:", featuredPostsRes.data.data.posts);
+    
     return {
       props: {
         featuredPosts,
@@ -179,7 +178,8 @@ export const getServerSideProps = async({query}) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    console.log(Object.keys(err));
+    console.error(err.message)
     return {
       props: {
         err: 'Oops there seems to be an issue. Please refresh your browser',
