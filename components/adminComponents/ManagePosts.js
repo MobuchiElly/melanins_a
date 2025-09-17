@@ -4,7 +4,6 @@ import axiosInstance from '@/utils/axios';
 import axios from 'axios';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
-import { current } from '@reduxjs/toolkit';
 
 const ManagePosts = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -56,7 +55,7 @@ const ManagePosts = () => {
                     updatePayload.image = url;
                 };
                 setLoading(true);
-                const updatedPostRes = await axiosInstance.patch(`/blog/${selectedPost._id}`, updatePayload, {
+                const updatedPostRes = await axiosInstance.patch(`/posts/${selectedPost._id}`, updatePayload, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -87,7 +86,7 @@ const ManagePosts = () => {
     const handleDelete = async(postId) => {
         try{
             const token = Cookies.get("authToken") ? JSON.parse(Cookies.get("authToken")) : null;
-            const delPost = await axiosInstance.delete('/blog/' + postId, {
+            const delPost = await axiosInstance.delete('/posts/' + postId, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -121,7 +120,7 @@ const ManagePosts = () => {
             setStrTags([...selectedTags].join(", "));
         }
         try {
-            const res = await axiosInstance.get(`/blog?page=${currentPage}&search=${searchTerm}&tags=${strTags}`);
+            const res = await axiosInstance.get(`/posts?page=${currentPage}&search=${searchTerm}&tags=${strTags}`);
             const { posts, totalPages } = res.data.data;
             console.log("toatlPages:", res.data);
             setPosts(posts);
